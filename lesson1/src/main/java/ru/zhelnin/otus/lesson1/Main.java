@@ -9,11 +9,12 @@ import org.apache.commons.cli.ParseException;
 
 public class Main {
 
+    private static final String DESCRIPTION = "input string to print (if there are space chars in the string you have to use quotes)";
+
     public static void main(String[] args) {
         Options options = new Options();
 
-        Option input = new Option("is", "inputString", true, "input string to print (if there are space chars in the " +
-                "string you have to use quotes)");
+        Option input = new Option("is", "inputString", true, DESCRIPTION);
         input.setRequired(true);
         options.addOption(input);
 
@@ -23,7 +24,6 @@ public class Main {
         } catch (ParseException e) {
             System.out.println("Illegal argument!");
             new HelpFormatter().printHelp("utility-name", options);
-            System.exit(1);
         }
         System.out.println(commandLine != null ? commandLine.getOptionValue("inputString") : "Error!");
     }
