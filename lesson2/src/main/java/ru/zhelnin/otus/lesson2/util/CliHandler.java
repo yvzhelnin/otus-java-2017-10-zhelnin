@@ -17,6 +17,7 @@ public class CliHandler {
             "4 - ArrayList";
 
     private static final String START_NOTIFICATION = "Starting the loop";
+    private static final String END_NOTIFICATION = "Measurement completed";
 
     public static void printStartNotification() {
         System.out.println(START_NOTIFICATION);
@@ -27,7 +28,7 @@ public class CliHandler {
     }
 
     public static void printEndNotification() {
-        System.out.println("Measurement completed");
+        System.out.println(END_NOTIFICATION);
     }
 
     public static int getStructureType(String[] args) {
