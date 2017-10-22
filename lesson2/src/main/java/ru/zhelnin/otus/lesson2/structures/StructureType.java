@@ -32,4 +32,13 @@ public enum StructureType {
         }
         return UNKNOWN.getName();
     }
+
+    public static StructureType getById(int searchValue) {
+        for (StructureType type : values()) {
+            if (type.getValue() == searchValue) {
+                return type;
+            }
+        }
+        return UNKNOWN;
+    }
 }

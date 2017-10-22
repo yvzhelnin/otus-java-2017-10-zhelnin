@@ -7,8 +7,8 @@ import ru.zhelnin.otus.lesson2.util.CliHandler;
 public class Main {
 
     public static void main(String[] args) {
-        int structureType = CliHandler.getStructureType(args);
-        if (structureType != StructureType.UNKNOWN.getValue()) {
+        StructureType structureType = StructureType.getById(CliHandler.getStructureType(args));
+        if (structureType.getValue() != StructureType.UNKNOWN.getValue()) {
             StructuresMaker.fillAndMeasure(structureType);
         }
     }

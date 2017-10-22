@@ -23,8 +23,8 @@ public class CliHandler {
         System.out.println(START_NOTIFICATION);
     }
 
-    public static void printStructureSize(long memoryUsage, int structureType, int structureSize) {
-        System.out.println("Size of " + StructureType.getNameByValue(structureType) + "(" + structureSize + ") is: " + memoryUsage + " bytes");
+    public static void printStructureSize(long memoryUsage, StructureType structureType, int structureSize) {
+        System.out.println("Size of " + StructureType.getNameByValue(structureType.getValue()) + "(" + structureSize + ") is: " + memoryUsage + " bytes");
     }
 
     public static void printEndNotification() {
