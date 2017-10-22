@@ -20,15 +20,16 @@ public class StructuresMaker {
 
     private static void handleLoop(StructureType structureType) {
         for (int structureSize = 0; structureSize <= MAX_STRUCTURE_SIZE; structureSize++) {
-            final long memoryOnStart = fillIterationAndGetMemoryOnStart(structureType, structureSize);
-            CliHandler.printStructureSize(MemoryMeter.countStructureSize(MemoryMeter.measureMemory() - memoryOnStart, QUANTITY), structureType, structureSize);
+            Collection<Object> container = new ArrayList<>(QUANTITY);
+            MemoryMeter.cleanMemory();
+            final long memoryOnStart = MemoryMeter.measureMemory();
+            fillIteration(container, structureType, structureSize);
+            final long memoryOnFinish = MemoryMeter.measureMemory();
+            CliHandler.printStructureSize(MemoryMeter.countStructureSize(memoryOnFinish - memoryOnStart, QUANTITY), structureType, structureSize);
         }
     }
 
-    private static long fillIterationAndGetMemoryOnStart(StructureType structureType, int structureSize) {
-        Collection<Object> container = new ArrayList<>(QUANTITY);
-        MemoryMeter.cleanMemory();
-        final long memoryOnStart = MemoryMeter.measureMemory();
+    private static void fillIteration(Collection<Object> container, StructureType structureType, int structureSize) {
         for (int i = 0; i < QUANTITY; i++) {
             if (structureType.equals(StructureType.ARRAY)) {
                 container.add(new Object[structureSize]);
@@ -40,6 +41,5 @@ public class StructuresMaker {
                 container.add(new ArrayList<>(structureSize));
             }
         }
-        return memoryOnStart;
     }
 }
