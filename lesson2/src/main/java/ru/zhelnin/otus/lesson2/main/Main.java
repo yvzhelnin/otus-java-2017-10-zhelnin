@@ -8,7 +8,7 @@ public class Main {
 
     public static void main(String[] args) {
         StructureType structureType = StructureType.getById(CliHandler.getStructureType(args));
-        if (structureType.getValue() != StructureType.UNKNOWN.getValue()) {
+        if (!structureType.equals(StructureType.UNKNOWN)) {
             StructuresMaker.fillAndMeasure(structureType);
         }
     }
