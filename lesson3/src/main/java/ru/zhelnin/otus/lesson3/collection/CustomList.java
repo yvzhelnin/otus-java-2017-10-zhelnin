@@ -429,9 +429,9 @@ public class CustomList<E> implements List<E> {
             @Override
             public void set(E e) {
                 if (isUsedNext) {
-                    elements[nextIndex] = e;
+                    elements[nextIndex - 1] = e;
                 } else {
-                    elements[previousIndex] = e;
+                    elements[previousIndex + 1] = e;
                 }
             }
 
