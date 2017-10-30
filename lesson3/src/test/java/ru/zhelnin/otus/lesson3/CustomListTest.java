@@ -3,7 +3,6 @@ package ru.zhelnin.otus.lesson3;
 import org.junit.Assert;
 import org.junit.Test;
 import ru.zhelnin.otus.lesson3.collection.CustomList;
-import ru.zhelnin.otus.lesson3.exception.CustomListIndexOutOfBoundsException;
 import ru.zhelnin.otus.lesson3.util.StringConstant;
 
 import java.util.ArrayList;
@@ -19,7 +18,7 @@ public class CustomListTest {
         Assert.assertEquals(0, new CustomList<>().size());
     }
 
-    @Test(expected = CustomListIndexOutOfBoundsException.class)
+    @Test(expected = ArrayIndexOutOfBoundsException.class)
     public void testGetOutOfBoundsElement() {
         Assert.assertNull(new CustomList<>().get(12));
     }
@@ -232,7 +231,7 @@ public class CustomListTest {
         Assert.assertEquals(StringConstant.THIRD, source.get(1));
     }
 
-    @Test(expected = CustomListIndexOutOfBoundsException.class)
+    @Test(expected = ArrayIndexOutOfBoundsException.class)
     public void testSetElementByIndexOutOfBoundsCustomList() {
         List<String> source = new CustomList<>();
         source.add(StringConstant.FIRST);

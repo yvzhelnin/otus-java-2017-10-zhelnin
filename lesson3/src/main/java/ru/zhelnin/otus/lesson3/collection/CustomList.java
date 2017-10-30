@@ -1,7 +1,5 @@
 package ru.zhelnin.otus.lesson3.collection;
 
-import ru.zhelnin.otus.lesson3.exception.CustomListIndexOutOfBoundsException;
-
 import java.util.Arrays;
 import java.util.Collection;
 import java.util.Iterator;
@@ -85,9 +83,7 @@ public class CustomList<E> implements List<E> {
         if (e == null) {
             return false;
         }
-        if (elementsCount == elements.length - 1) {
-            elements = Arrays.copyOf(elements, 3 * elements.length / 2);
-        }
+        expandElementsContainer(0);
         elements[elementsCount++] = e;
 
         return true;
@@ -130,9 +126,7 @@ public class CustomList<E> implements List<E> {
         if (c == null) {
             return false;
         }
-        if (elements.length - elementsCount < c.size()) {
-            elements = Arrays.copyOf(elements, 3 * elements.length / 2 + c.size());
-        }
+        expandElementsContainer(c.size());
         for (Object newElement : c) {
             elements[elementsCount++] = newElement;
         }
@@ -142,14 +136,12 @@ public class CustomList<E> implements List<E> {
     @Override
     public boolean addAll(int index, Collection<? extends E> c) {
         if (index < 0 || index >= elementsCount) {
-            throw new CustomListIndexOutOfBoundsException();
+            throw new ArrayIndexOutOfBoundsException(index);
         }
         if (c == null) {
             return false;
         }
-        if (elements.length - elementsCount < c.size()) {
-            elements = Arrays.copyOf(elements, 3 * elements.length / 2 + c.size());
-        }
+        expandElementsContainer(c.size());
         for (E element : c) {
             add(index++, element);
         }
@@ -173,9 +165,7 @@ public class CustomList<E> implements List<E> {
             return false;
         }
         clear();
-        if (elements.length - elementsCount < c.size()) {
-            elements = Arrays.copyOf(elements, 3 * elements.length / 2 + c.size());
-        }
+        expandElementsContainer(c.size());
         for (Object element : c) {
             add((E) element);
         }
@@ -192,7 +182,7 @@ public class CustomList<E> implements List<E> {
     @Override
     public E get(int index) {
         if (index < 0 || index >= elementsCount) {
-            throw new CustomListIndexOutOfBoundsException();
+            throw new ArrayIndexOutOfBoundsException(index);
         }
         return (E) elements[index];
     }
@@ -200,7 +190,7 @@ public class CustomList<E> implements List<E> {
     @Override
     public E set(int index, E element) {
         if (index < 0 || index >= elementsCount) {
-            throw new CustomListIndexOutOfBoundsException();
+            throw new ArrayIndexOutOfBoundsException(index);
         }
         elements[index] = element;
 
@@ -210,11 +200,9 @@ public class CustomList<E> implements List<E> {
     @Override
     public void add(int index, E element) {
         if (index < 0 || index >= elementsCount) {
-            throw new CustomListIndexOutOfBoundsException();
+            throw new ArrayIndexOutOfBoundsException(index);
         }
-        if (elementsCount == elements.length - 1) {
-            elements = Arrays.copyOf(elements, 3 * elements.length / 2);
-        }
+        expandElementsContainer(0);
         System.arraycopy(elements, index, elements, index + 1, elements.length - index - 1);
         elements[index] = element;
         elementsCount++;
@@ -223,7 +211,7 @@ public class CustomList<E> implements List<E> {
     @Override
     public E remove(int index) {
         if (index < 0 || index >= elementsCount) {
-            throw new CustomListIndexOutOfBoundsException();
+            throw new ArrayIndexOutOfBoundsException(index);
         }
         E removedElement = get(index);
         if (index == elementsCount - 1) {
@@ -343,9 +331,7 @@ public class CustomList<E> implements List<E> {
 
             @Override
             public void add(E e) {
-                if (elementsCount == elements.length - 1) {
-                    elements = Arrays.copyOf(elements, 3 * elements.length / 2);
-                }
+                expandElementsContainer(0);
                 if (isUsedNext) {
                     System.arraycopy(elements, nextIndex, elements, nextIndex + 1, elements.length - nextIndex - 1);
                     elements[nextIndex] = e;
@@ -437,9 +423,7 @@ public class CustomList<E> implements List<E> {
 
             @Override
             public void add(E e) {
-                if (elementsCount == elements.length - 1) {
-                    elements = Arrays.copyOf(elements, 3 * elements.length / 2);
-                }
+                expandElementsContainer(0);
                 if (isUsedNext) {
                     System.arraycopy(elements, nextIndex, elements, nextIndex + 1, elements.length - nextIndex - 1);
                     elements[nextIndex] = e;
@@ -455,18 +439,24 @@ public class CustomList<E> implements List<E> {
     @Override
     public List<E> subList(int fromIndex, int toIndex) {
         if (toIndex < fromIndex) {
-            throw new CustomListIndexOutOfBoundsException();
+            throw new ArrayIndexOutOfBoundsException(toIndex);
         }
         if (fromIndex < 0 || fromIndex >= elementsCount) {
-            throw new CustomListIndexOutOfBoundsException();
+            throw new ArrayIndexOutOfBoundsException(fromIndex);
         }
         if (toIndex < 0 || toIndex >= elementsCount) {
-            throw new CustomListIndexOutOfBoundsException();
+            throw new ArrayIndexOutOfBoundsException(toIndex);
         }
         List<E> result = new CustomList<>();
         for (int i = fromIndex; i <= toIndex; i++) {
             result.add((E) elements[i]);
         }
         return result;
+    }
+
+    private void expandElementsContainer(int addingCollectionSize) {
+        if (elementsCount == elements.length - 1) {
+            elements = Arrays.copyOf(elements, 3 * elements.length / 2 + addingCollectionSize);
+        }
     }
 }
