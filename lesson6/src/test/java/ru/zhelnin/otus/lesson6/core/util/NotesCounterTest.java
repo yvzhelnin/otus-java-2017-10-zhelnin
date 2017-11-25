@@ -4,6 +4,7 @@ import org.junit.Assert;
 import org.junit.Test;
 import ru.zhelnin.otus.lesson6.money.note.Denomination;
 import ru.zhelnin.otus.lesson6.money.note.Note;
+import ru.zhelnin.otus.lesson6.money.note.counter.NotesCounterFactory;
 import ru.zhelnin.otus.lesson6.util.exception.NoSuchDenominationException;
 
 import java.util.ArrayList;
@@ -13,12 +14,12 @@ public class NotesCounterTest {
 
     @Test(expected = NoSuchDenominationException.class)
     public void gatherNotesBeforeWithdrawingTooSmallValue() throws NoSuchDenominationException {
-        NotesCounter.gatherNotesBeforeWithdrawing(50);
+        NotesCounterFactory.getCounter(50).count();
     }
 
     @Test(expected = NoSuchDenominationException.class)
     public void gatherNotesBeforeWithdrawingNotMultipleToOneHundredValue() throws NoSuchDenominationException {
-        NotesCounter.gatherNotesBeforeWithdrawing(650);
+        NotesCounterFactory.getCounter(650).count();
     }
 
     @Test
@@ -27,7 +28,7 @@ public class NotesCounterTest {
         for (int i = 0; i < 4; i++) {
             expectedResult.add(new Note(Denomination.ONE_HUNDRED));
         }
-        List<Note> actualResult = NotesCounter.gatherNotesBeforeWithdrawing(400);
+        List<Note> actualResult = NotesCounterFactory.getCounter(400).count();
         Assert.assertEquals(expectedResult.size(), actualResult.size());
         Assert.assertEquals(expectedResult.get(0).getDenomination().getValue(), actualResult.get(0).getDenomination().getValue());
     }
@@ -39,14 +40,14 @@ public class NotesCounterTest {
         for (int i = 0; i < 4; i++) {
             expectedResult.add(new Note(Denomination.ONE_HUNDRED));
         }
-        List<Note> actualResult = NotesCounter.gatherNotesBeforeWithdrawing(900);
+        List<Note> actualResult = NotesCounterFactory.getCounter(900).count();
         Assert.assertEquals(expectedResult.size(), actualResult.size());
         Assert.assertEquals(expectedResult.get(0).getDenomination().getValue(), actualResult.get(0).getDenomination().getValue());
     }
 
     @Test
     public void gatherNotesBeforValueEqualsMiddleDenomination() throws NoSuchDenominationException {
-        List<Note> actualResult = NotesCounter.gatherNotesBeforeWithdrawing(500);
+        List<Note> actualResult = NotesCounterFactory.getCounter(500).count();
         Assert.assertEquals(500, actualResult.get(0).getDenomination().getValue());
         Assert.assertEquals(1, actualResult.size());
     }
@@ -57,7 +58,7 @@ public class NotesCounterTest {
         for (int i = 0; i < 4; i++) {
             expectedResult.add(new Note(Denomination.ONE_THOUSAND));
         }
-        List<Note> actualResult = NotesCounter.gatherNotesBeforeWithdrawing(4000);
+        List<Note> actualResult = NotesCounterFactory.getCounter(4000).count();
         Assert.assertEquals(expectedResult.size(), actualResult.size());
         Assert.assertEquals(expectedResult.get(0).getDenomination().getValue(), actualResult.get(0).getDenomination().getValue());
     }
@@ -70,7 +71,7 @@ public class NotesCounterTest {
         }
         expectedResult.add(new Note(Denomination.FIVE_HUNDRED));
         expectedResult.add(new Note(Denomination.ONE_HUNDRED));
-        List<Note> actualResult = NotesCounter.gatherNotesBeforeWithdrawing(4600);
+        List<Note> actualResult = NotesCounterFactory.getCounter(4600).count();
         Assert.assertEquals(expectedResult.size(), actualResult.size());
         Assert.assertEquals(expectedResult.get(0).getDenomination().getValue(), actualResult.get(0).getDenomination().getValue());
     }
@@ -81,7 +82,7 @@ public class NotesCounterTest {
         for (int i = 0; i < 4; i++) {
             expectedResult.add(new Note(Denomination.FIVE_THOUSAND));
         }
-        List<Note> actualResult = NotesCounter.gatherNotesBeforeWithdrawing(20000);
+        List<Note> actualResult = NotesCounterFactory.getCounter(20000).count();
         Assert.assertEquals(expectedResult.size(), actualResult.size());
         Assert.assertEquals(expectedResult.get(0).getDenomination().getValue(), actualResult.get(0).getDenomination().getValue());
     }
@@ -96,7 +97,7 @@ public class NotesCounterTest {
         for (int i = 0; i < 4; i++) {
             expectedResult.add(new Note(Denomination.ONE_HUNDRED));
         }
-        List<Note> actualResult = NotesCounter.gatherNotesBeforeWithdrawing(26400);
+        List<Note> actualResult = NotesCounterFactory.getCounter(26400).count();
         Assert.assertEquals(expectedResult.size(), actualResult.size());
         Assert.assertEquals(expectedResult.get(0).getDenomination().getValue(), actualResult.get(0).getDenomination().getValue());
     }
