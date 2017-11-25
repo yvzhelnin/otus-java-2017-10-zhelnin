@@ -1,16 +1,15 @@
-package ru.zhelnin.otus.lesson6.core.util;
+package ru.zhelnin.otus.lesson6.money.note.counter;
 
 import org.junit.Assert;
 import org.junit.Test;
 import ru.zhelnin.otus.lesson6.money.note.Denomination;
 import ru.zhelnin.otus.lesson6.money.note.Note;
-import ru.zhelnin.otus.lesson6.money.note.counter.NotesCounterFactory;
 import ru.zhelnin.otus.lesson6.util.exception.NoSuchDenominationException;
 
 import java.util.ArrayList;
 import java.util.List;
 
-public class NotesCounterTest {
+public class NotesCounterFactoryTest {
 
     @Test(expected = NoSuchDenominationException.class)
     public void gatherNotesBeforeWithdrawingTooSmallValue() throws NoSuchDenominationException {
