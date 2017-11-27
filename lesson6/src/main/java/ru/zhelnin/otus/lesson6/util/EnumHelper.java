@@ -1,7 +1,6 @@
 package ru.zhelnin.otus.lesson6.util;
 
 import java.util.Arrays;
-import java.util.List;
 import java.util.Set;
 import java.util.function.Function;
 import java.util.stream.Collectors;
