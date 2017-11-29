@@ -22,9 +22,9 @@ public class WithdrawalMenu extends Menu {
             ejectNotes(new Withdrawal(ConsoleParser.parse(console, ConsoleConstants.EMPTY_STRING, ConsoleConstants.WITHDRAWAL_INSTRUCTION)).withdraw());
         } catch (NoSuchDenominationException e) {
             System.out.println(ConsoleConstants.NO_SUCH_DENOMINATION);
-            ConsoleHandler.handle(console, ConsoleConstants.WELCOME_MENU, ConsoleConstants.WELCOME_INSTRUCTION);
+            ConsoleHandler.execute(console);
         }
-        ConsoleHandler.handle(console, ConsoleConstants.WELCOME_MENU, ConsoleConstants.WELCOME_INSTRUCTION);
+        ConsoleHandler.execute(console);
     }
 
     private void ejectNotes(Collection<Note> notes) {
