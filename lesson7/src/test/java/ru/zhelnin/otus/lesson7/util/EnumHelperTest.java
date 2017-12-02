@@ -2,7 +2,7 @@ package ru.zhelnin.otus.lesson7.util;
 
 import org.junit.Assert;
 import org.junit.Test;
-import ru.zhelnin.otus.lesson7.core.transaction.TransactionType;
+import ru.zhelnin.otus.lesson7.core.transaction.abstraction.Transaction;
 import ru.zhelnin.otus.lesson7.note.Denomination;
 
 import java.util.Arrays;
@@ -20,6 +20,6 @@ public class EnumHelperTest {
     @Test
     public void getAvailableValuesForTransactionType() {
         Set<String> expected = new HashSet<>(Arrays.asList("1", "2", "3"));
-        Assert.assertEquals(expected, new EnumHelper<TransactionType, String>().getAvailableValues(TransactionType.class, TransactionType::getCode));
+        Assert.assertEquals(expected, new EnumHelper<Transaction.Type, String>().getAvailableValues(Transaction.Type.class, Transaction.Type::getCode));
     }
 }

@@ -4,23 +4,23 @@ public class Account {
 
     private static final int INITIAL_BALANCE = 100000;
 
-    private int balance;
+    private Integer balance;
 
     public Account() {
         this.balance = INITIAL_BALANCE;
     }
 
-    public int getBalance() {
+    public Integer getBalance() {
         return balance;
     }
 
-    public int deposit(int value) {
+    public Integer deposit(int value) {
         balance += value;
 
         return balance;
     }
 
-    public int withdraw(int value) {
+    public Integer withdraw(Integer value) {
         balance -= value;
 
         return balance;

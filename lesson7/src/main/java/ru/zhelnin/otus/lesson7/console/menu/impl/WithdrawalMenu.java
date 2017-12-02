@@ -4,6 +4,7 @@ import ru.zhelnin.otus.lesson7.console.ConsoleConstants;
 import ru.zhelnin.otus.lesson7.console.ConsoleHandler;
 import ru.zhelnin.otus.lesson7.console.menu.abstraction.Menu;
 import ru.zhelnin.otus.lesson7.console.util.ConsoleParser;
+import ru.zhelnin.otus.lesson7.core.transaction.TransactionReceiver;
 import ru.zhelnin.otus.lesson7.core.transaction.Withdrawal;
 import ru.zhelnin.otus.lesson7.note.Note;
 import ru.zhelnin.otus.lesson7.note.util.exception.NoSuchDenominationException;
@@ -17,9 +18,9 @@ public class WithdrawalMenu extends Menu {
         super(console);
     }
 
-    public void handleMenu() {
+    public void handleMenu() throws NoSuchDenominationException {
         try {
-            ejectNotes(new Withdrawal(ConsoleParser.parse(console, ConsoleConstants.EMPTY_STRING, ConsoleConstants.WITHDRAWAL_INSTRUCTION)).withdraw());
+            ejectNotes(TransactionReceiver.accept(new Withdrawal(ConsoleParser.parse(console, ConsoleConstants.EMPTY_STRING, ConsoleConstants.WITHDRAWAL_INSTRUCTION))));
         } catch (NoSuchDenominationException e) {
             System.out.println(ConsoleConstants.NO_SUCH_DENOMINATION);
             ConsoleHandler.execute(console);

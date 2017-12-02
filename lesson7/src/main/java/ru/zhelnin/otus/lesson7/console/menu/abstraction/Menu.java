@@ -1,6 +1,7 @@
 package ru.zhelnin.otus.lesson7.console.menu.abstraction;
 
 import ru.zhelnin.otus.lesson7.note.Denomination;
+import ru.zhelnin.otus.lesson7.note.util.exception.NoSuchDenominationException;
 import ru.zhelnin.otus.lesson7.util.EnumHelper;
 
 import java.io.Console;
@@ -16,5 +17,5 @@ public abstract class Menu {
         this.console = console;
     }
 
-    public abstract void handleMenu();
+    public abstract void handleMenu() throws NoSuchDenominationException;
 }
