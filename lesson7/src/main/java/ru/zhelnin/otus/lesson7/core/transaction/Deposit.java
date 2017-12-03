@@ -5,16 +5,17 @@ import ru.zhelnin.otus.lesson7.core.transaction.abstraction.Transaction;
 
 public class Deposit extends Transaction {
 
-    private static final Atm ATM = Atm.getInstance();
+    private final Atm targetAtm;
 
     private final int amountRequested;
 
-    public Deposit(int amountRequested) {
+    public Deposit(int amountRequested, Atm targetAtm) {
         super(Type.DEPOSIT);
         this.amountRequested = amountRequested;
+        this.targetAtm = targetAtm;
     }
 
     public int deposit() {
-        return ATM.getAccount().deposit(amountRequested);
+        return targetAtm.getAccount().deposit(amountRequested);
     }
 }

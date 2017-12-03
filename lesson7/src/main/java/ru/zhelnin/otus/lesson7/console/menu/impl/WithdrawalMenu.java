@@ -4,6 +4,7 @@ import ru.zhelnin.otus.lesson7.console.ConsoleConstants;
 import ru.zhelnin.otus.lesson7.console.ConsoleHandler;
 import ru.zhelnin.otus.lesson7.console.menu.abstraction.Menu;
 import ru.zhelnin.otus.lesson7.console.util.ConsoleParser;
+import ru.zhelnin.otus.lesson7.core.atm.Atm;
 import ru.zhelnin.otus.lesson7.core.transaction.TransactionReceiver;
 import ru.zhelnin.otus.lesson7.core.transaction.Withdrawal;
 import ru.zhelnin.otus.lesson7.note.Note;
@@ -14,18 +15,18 @@ import java.util.Collection;
 
 public class WithdrawalMenu extends Menu {
 
-    public WithdrawalMenu(Console console) {
-        super(console);
+    public WithdrawalMenu(Console console, Atm atm) {
+        super(console, atm);
     }
 
     public void handleMenu() throws NoSuchDenominationException {
         try {
-            ejectNotes(TransactionReceiver.accept(new Withdrawal(ConsoleParser.parse(console, ConsoleConstants.EMPTY_STRING, ConsoleConstants.WITHDRAWAL_INSTRUCTION))));
+            ejectNotes(TransactionReceiver.accept(new Withdrawal(ConsoleParser.parse(console, ConsoleConstants.EMPTY_STRING, ConsoleConstants.WITHDRAWAL_INSTRUCTION), atm)));
         } catch (NoSuchDenominationException e) {
             System.out.println(ConsoleConstants.NO_SUCH_DENOMINATION);
-            ConsoleHandler.execute(console);
+            ConsoleHandler.execute(console, atm);
         }
-        ConsoleHandler.execute(console);
+        ConsoleHandler.execute(console, atm);
     }
 
     private void ejectNotes(Collection<Note> notes) {

@@ -10,19 +10,27 @@ import java.util.Collection;
 
 public class Withdrawal extends Transaction {
 
-    private static final Atm ATM = Atm.getInstance();
+    private final Atm targetAtm;
 
     private final int amountRequested;
 
-    public Withdrawal(int amountRequested) {
+    public Withdrawal(int amountRequested, Atm targetAtm) {
         super(Type.WITHDRAWAL);
         this.amountRequested = amountRequested;
+        this.targetAtm = targetAtm;
     }
 
     public Collection<Note> withdraw() throws NoSuchDenominationException {
         Collection<Note> notes = NotesCounterFactory.getCounter(amountRequested).count();
-        ATM.getAccount().withdraw(amountRequested);
+        targetAtm.getAccount().withdraw(amountRequested);
+        extractNotes(notes);
 
         return notes;
+    }
+
+    private void extractNotes(Collection<Note> notes) throws NoSuchDenominationException {
+        for (Note note : notes) {
+            targetAtm.getCassete().getNotes(note.getDenomination());
+        }
     }
 }

@@ -19,7 +19,7 @@ public class EnumHelperTest {
 
     @Test
     public void getAvailableValuesForTransactionType() {
-        Set<String> expected = new HashSet<>(Arrays.asList("1", "2", "3"));
+        Set<String> expected = new HashSet<>(Arrays.asList("1", "2", "3", "0"));
         Assert.assertEquals(expected, new EnumHelper<Transaction.Type, String>().getAvailableValues(Transaction.Type.class, Transaction.Type::getCode));
     }
 }

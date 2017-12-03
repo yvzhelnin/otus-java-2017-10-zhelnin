@@ -5,13 +5,14 @@ import ru.zhelnin.otus.lesson7.core.transaction.abstraction.Transaction;
 
 public class BalanceView extends Transaction {
 
-    private static final Atm ATM = Atm.getInstance();
+    private final Atm targetAtm;
 
-    public BalanceView() {
+    public BalanceView(Atm targetAtm) {
         super(Type.BALANCE_VIEW);
+        this.targetAtm = targetAtm;
     }
 
     public Integer view() {
-        return ATM.getAccount().getBalance();
+        return targetAtm.getAccount().getBalance();
     }
 }

@@ -1,5 +1,6 @@
 package ru.zhelnin.otus.lesson7.console.menu.abstraction;
 
+import ru.zhelnin.otus.lesson7.core.atm.Atm;
 import ru.zhelnin.otus.lesson7.note.Denomination;
 import ru.zhelnin.otus.lesson7.note.util.exception.NoSuchDenominationException;
 import ru.zhelnin.otus.lesson7.util.EnumHelper;
@@ -13,8 +14,11 @@ public abstract class Menu {
 
     protected final Console console;
 
-    protected Menu(Console console) {
+    protected final Atm atm;
+
+    protected Menu(Console console, Atm atm) {
         this.console = console;
+        this.atm = atm;
     }
 
     public abstract void handleMenu() throws NoSuchDenominationException;

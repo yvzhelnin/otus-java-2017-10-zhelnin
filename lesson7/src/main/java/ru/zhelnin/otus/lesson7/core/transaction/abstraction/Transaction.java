@@ -5,7 +5,8 @@ public class Transaction {
     public enum Type {
         DEPOSIT("1"),
         BALANCE_VIEW("2"),
-        WITHDRAWAL("3");
+        WITHDRAWAL("3"),
+        UNKNOWN("0");
 
         private String code;
 
