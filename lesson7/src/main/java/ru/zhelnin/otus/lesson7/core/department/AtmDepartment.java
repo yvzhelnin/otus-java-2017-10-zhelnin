@@ -27,6 +27,7 @@ public class AtmDepartment {
         for (Atm atm : atms) {
             atm.restoreToInitialState();
         }
+        printNotesAmount();
     }
 
     public void printNotesAmount() {

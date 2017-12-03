@@ -1,19 +1,25 @@
 package ru.zhelnin.otus.lesson7.console;
 
+import ru.zhelnin.otus.lesson7.console.menu.observer.Event;
+import ru.zhelnin.otus.lesson7.console.menu.observer.Observer;
 import ru.zhelnin.otus.lesson7.core.department.AtmDepartment;
 import ru.zhelnin.otus.lesson7.note.util.exception.NoSuchDenominationException;
 
 import java.io.Console;
+import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
 
 public class DepartmentConsoleHandler extends ConsoleHandler {
 
-    private static final String PRINT_NOTES = "1";
-    private static final String RESTORE_ATMS = "2";
+    public static final String PRINT_NOTES = "1";
+    public static final String RESTORE_ATMS = "2";
     private static final String ENTER_CONCRETE = "3";
 
     private static final List<String> AVAILABLE_OPERATIONS = Arrays.asList(PRINT_NOTES, RESTORE_ATMS, ENTER_CONCRETE);
+
+    private static final List<Observer> OBSERVERS = new ArrayList<>();
+
 
     public static void execute(Console console, AtmDepartment department) throws NoSuchDenominationException {
         if (console != null) {
@@ -29,16 +35,15 @@ public class DepartmentConsoleHandler extends ConsoleHandler {
     private static void makeAction(Console console, String selectedCode, AtmDepartment department) throws NoSuchDenominationException {
         switch (selectedCode) {
             case PRINT_NOTES:
-                department.printNotesAmount();
+                notify(new Event(department), PRINT_NOTES);
                 execute(console, department);
                 break;
             case RESTORE_ATMS:
-                department.restoreGroupToInitialStates();
-                department.printNotesAmount();
+                notify(new Event(department), RESTORE_ATMS);
+                execute(console, department);
             case ENTER_CONCRETE:
                 enterConcreteAtm(console, department);
         }
-
     }
 
     private static void enterConcreteAtm(Console console, AtmDepartment department) throws NoSuchDenominationException {
@@ -56,7 +61,14 @@ public class DepartmentConsoleHandler extends ConsoleHandler {
             System.out.println(ConsoleConstants.WRONG_DATA);
             execute(console, department);
         }
-
         return selectedNumber;
+    }
+
+    public static void register(Observer observer) {
+        OBSERVERS.add(observer);
+    }
+
+    private static void notify(Event event, String type) {
+        OBSERVERS.forEach(observer -> observer.notify(event, type));
     }
 }
