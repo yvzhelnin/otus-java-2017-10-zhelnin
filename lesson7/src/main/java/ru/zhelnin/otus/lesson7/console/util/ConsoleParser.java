@@ -1,7 +1,7 @@
 package ru.zhelnin.otus.lesson7.console.util;
 
 import ru.zhelnin.otus.lesson7.console.ConsoleConstants;
-import ru.zhelnin.otus.lesson7.console.ConsoleHandler;
+import ru.zhelnin.otus.lesson7.console.department.ConsoleHandler;
 
 import java.io.Console;
 

@@ -1,6 +1,6 @@
 package ru.zhelnin.otus.lesson7.console.menu.observer;
 
-import ru.zhelnin.otus.lesson7.console.DepartmentConsoleHandler;
+import ru.zhelnin.otus.lesson7.console.department.DepartmentConsoleHandler;
 
 public class PrintNotesAmountObserver implements Observer {
 

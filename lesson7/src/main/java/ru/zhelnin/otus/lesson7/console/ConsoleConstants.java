@@ -2,7 +2,7 @@ package ru.zhelnin.otus.lesson7.console;
 
 public final class ConsoleConstants {
 
-    static final String DEPARTMENT_MENU = "Welcome to Zhelnin Finance Inc. Atm Department!\n" +
+    public static final String DEPARTMENT_MENU = "Welcome to Zhelnin Finance Inc. Atm Department!\n" +
             "Available operations:\n" +
             "1 - show notes amount over the department\n" +
             "2 - restore atms to their initial states\n" +
@@ -32,4 +32,6 @@ public final class ConsoleConstants {
 
     public static final String WRONG_DATA = "Wrong value!\n";
     public static final String NO_SUCH_DENOMINATION = "It is impossible to issue the requested amount!\n";
+    public static final String CONSOLE_IS_NULL = "You've tried to execute program with javaw.exe (possibly from an IDE).\n" +
+            "You have to run it with java.exe from a console\n";
 }

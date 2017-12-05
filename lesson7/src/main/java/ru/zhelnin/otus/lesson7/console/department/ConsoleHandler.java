@@ -1,7 +1,7 @@
-package ru.zhelnin.otus.lesson7.console;
+package ru.zhelnin.otus.lesson7.console.department;
 
-import ru.zhelnin.otus.lesson7.console.menu.MenuFactory;
-import ru.zhelnin.otus.lesson7.console.menu.abstraction.Menu;
+import ru.zhelnin.otus.lesson7.console.ConsoleConstants;
+import ru.zhelnin.otus.lesson7.console.menu.MenuCommand;
 import ru.zhelnin.otus.lesson7.core.atm.Atm;
 import ru.zhelnin.otus.lesson7.core.transaction.abstraction.Transaction;
 import ru.zhelnin.otus.lesson7.note.util.exception.NoSuchDenominationException;
@@ -26,12 +26,7 @@ public class ConsoleHandler {
     }
 
     private static void showSelectedMenu(Console console, String selectedCode, Atm atm) throws NoSuchDenominationException {
-        Menu selectedMenu = new MenuFactory(console, atm).getMenu(Transaction.Type.getByCode(selectedCode));
-        if (selectedMenu != null) {
-            selectedMenu.handleMenu();
-        } else {
-            DepartmentConsoleHandler.execute(console, atm.getDepartment());
-        }
+        new MenuCommand(console, atm).execute(Transaction.Type.getByCode(selectedCode));
     }
 
     public static String handle(Console console, String message, String instruction) {

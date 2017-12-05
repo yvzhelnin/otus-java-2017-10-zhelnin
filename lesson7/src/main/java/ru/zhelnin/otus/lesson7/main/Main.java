@@ -1,6 +1,6 @@
 package ru.zhelnin.otus.lesson7.main;
 
-import ru.zhelnin.otus.lesson7.console.DepartmentConsoleHandler;
+import ru.zhelnin.otus.lesson7.console.department.DepartmentConsoleHandler;
 import ru.zhelnin.otus.lesson7.console.menu.observer.PrintNotesAmountObserver;
 import ru.zhelnin.otus.lesson7.console.menu.observer.RestoreAtmsObserver;
 import ru.zhelnin.otus.lesson7.core.department.AtmDepartment;

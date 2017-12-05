@@ -1,6 +1,6 @@
 package ru.zhelnin.otus.lesson7.console.menu.impl;
 
-import ru.zhelnin.otus.lesson7.console.ConsoleHandler;
+import ru.zhelnin.otus.lesson7.console.department.ConsoleHandler;
 import ru.zhelnin.otus.lesson7.console.menu.abstraction.Menu;
 import ru.zhelnin.otus.lesson7.core.atm.Atm;
 import ru.zhelnin.otus.lesson7.core.transaction.BalanceView;
