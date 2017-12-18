@@ -18,8 +18,4 @@ public class AppProperties {
     public static String getProperty(String key) {
         return properties.getProperty(key);
     }
-
-    public static Properties getProperties() {
-        return properties;
-    }
 }

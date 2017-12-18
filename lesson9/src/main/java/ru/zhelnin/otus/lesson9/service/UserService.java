@@ -4,7 +4,6 @@ import ru.zhelnin.otus.lesson9.database.connection.ConnectionWrapper;
 import ru.zhelnin.otus.lesson9.database.execution.QueryExecutor;
 import ru.zhelnin.otus.lesson9.model.UserData;
 
-import java.sql.PreparedStatement;
 import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.Collection;
@@ -22,7 +21,6 @@ public class UserService {
             executor.executePrepared(CREATE_QUERY, statement -> {
                 statement.setString(1, user.getName());
                 statement.setInt(2, user.getAge());
-                statement.execute();
             });
         }
     }
@@ -35,7 +33,6 @@ public class UserService {
                 statement.setString(index++, user.getName());
                 statement.setInt(index++, user.getAge());
                 statement.setLong(index, user.getId());
-                statement.execute();
             });
         }
     }
@@ -45,15 +42,12 @@ public class UserService {
             QueryExecutor executor = new QueryExecutor(connection);
             return executor.executeGet(GET_BY_ID_QUERY, statement -> {
                 statement.setLong(1, id);
-                statement.execute();
             }, resultSet -> {
                 UserData userData = new UserData();
-                if(resultSet.next()) {
+                if (resultSet.next()) {
                     userData = new UserData(id, resultSet.getString("name"), resultSet.getInt("age"));
-                    resultSet.close();
                 }
                 return userData;
-
             });
         }
     }
@@ -62,12 +56,10 @@ public class UserService {
         Collection<UserData> users = new ArrayList<>();
         try (ConnectionWrapper connection = new ConnectionWrapper()) {
             QueryExecutor executor = new QueryExecutor(connection);
-            return executor.executeGet(GET_ALL_QUERY, PreparedStatement::execute, resultSet -> {
+            return executor.executeGet(GET_ALL_QUERY, null, resultSet -> {
                 while (resultSet.next()) {
                     users.add(new UserData(resultSet.getLong("id"), resultSet.getString("name"), resultSet.getInt("age")));
                 }
-                resultSet.close();
-
                 return users;
             });
         }

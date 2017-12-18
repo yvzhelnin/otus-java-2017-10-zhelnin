@@ -16,12 +16,16 @@ public class QueryExecutor {
     public void executePrepared(String query, PreparedHandler handler) throws SQLException {
         try (PreparedStatement statement = connection.prepareStatement(query)) {
             handler.prepare(statement);
+            statement.execute();
         }
     }
 
     public <T> T executeGet(String query, PreparedHandler preparedHandler, ResultHandler<T> resultHandler) throws SQLException {
         try (PreparedStatement statement = connection.prepareStatement(query)) {
-            preparedHandler.prepare(statement);
+            if (preparedHandler != null) {
+                preparedHandler.prepare(statement);
+            }
+            statement.execute();
 
             return resultHandler.handle(statement.getResultSet());
         }
