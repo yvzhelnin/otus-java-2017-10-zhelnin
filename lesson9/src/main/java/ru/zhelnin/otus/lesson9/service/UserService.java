@@ -13,7 +13,7 @@ public class UserService {
     private static final String CREATE_QUERY = "INSERT INTO t_user (name, age) VALUES(?, ?)";
     private static final String SAVE_QUERY = "UPDATE t_user SET name = ?, age = ? WHERE id = ?";
     private static final String GET_BY_ID_QUERY = "SELECT u.name, u.age FROM t_user u WHERE id = ?";
-    private static final String GET_ALL_QUERY = "SELECT u.id, u.name, u.age FROM t_user u";
+    private static final String GET_ALL_QUERY = "SELECT u.id, u.name, u.age FROM t_user u ORDER BY u.id";
 
     public static void createUser(UserData user) throws SQLException {
         try (ConnectionWrapper connection = new ConnectionWrapper()) {

@@ -3,6 +3,7 @@ package ru.zhelnin.otus.lesson9.database.execution;
 import ru.zhelnin.otus.lesson9.database.connection.ConnectionWrapper;
 
 import java.sql.PreparedStatement;
+import java.sql.ResultSet;
 import java.sql.SQLException;
 
 public class QueryExecutor {
@@ -27,7 +28,9 @@ public class QueryExecutor {
             }
             statement.execute();
 
-            return resultHandler.handle(statement.getResultSet());
+            try (ResultSet resultSet = statement.getResultSet()) {
+                return resultHandler.handle(resultSet);
+            }
         }
     }
 }
