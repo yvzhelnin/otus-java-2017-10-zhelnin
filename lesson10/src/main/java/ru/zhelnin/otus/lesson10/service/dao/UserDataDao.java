@@ -1,21 +1,17 @@
 package ru.zhelnin.otus.lesson10.service.dao;
 
 import org.hibernate.Session;
-import org.hibernate.Transaction;
 import ru.zhelnin.otus.lesson10.model.UserData;
 
 import javax.persistence.criteria.CriteriaBuilder;
 import javax.persistence.criteria.CriteriaQuery;
 import java.sql.SQLException;
 import java.util.Collection;
-import java.util.function.Function;
 
-public class UserDataDao {
-
-    private final Session session;
+public class UserDataDao extends AbstractDao {
 
     public UserDataDao(Session session) {
-        this.session = session;
+        super(session);
     }
 
     public void createUser(UserData user) throws SQLException {
@@ -42,13 +38,5 @@ public class UserDataDao {
 
             return session.createQuery(query).list();
         });
-    }
-
-    private <T> T executeQuery(Function<Session, T> function) {
-        Transaction transaction = session.beginTransaction();
-        T result = function.apply(session);
-        transaction.commit();
-
-        return result;
     }
 }

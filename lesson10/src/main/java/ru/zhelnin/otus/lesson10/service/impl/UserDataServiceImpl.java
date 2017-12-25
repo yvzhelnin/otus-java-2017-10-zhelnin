@@ -3,6 +3,7 @@ package ru.zhelnin.otus.lesson10.service.impl;
 import org.hibernate.SessionFactory;
 import org.hibernate.boot.registry.StandardServiceRegistryBuilder;
 import org.hibernate.cfg.Configuration;
+import ru.zhelnin.otus.lesson10.model.AddressData;
 import ru.zhelnin.otus.lesson10.model.UserData;
 import ru.zhelnin.otus.lesson10.properties.AppProperties;
 import ru.zhelnin.otus.lesson10.service.UserDataService;
@@ -17,7 +18,10 @@ public class UserDataServiceImpl implements UserDataService {
 
     public UserDataServiceImpl() {
         Configuration configuration = new Configuration();
+
         configuration.addAnnotatedClass(UserData.class);
+        configuration.addAnnotatedClass(AddressData.class);
+
         configuration.setProperties(AppProperties.getProperties());
 
         sessionFactory = createSessionFactory(configuration);
