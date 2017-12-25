@@ -1,4 +1,4 @@
-package ru.zhelnin.otus.lesson9.service;
+package ru.zhelnin.otus.lesson9.service.dao;
 
 import ru.zhelnin.otus.lesson9.database.connection.ConnectionWrapper;
 import ru.zhelnin.otus.lesson9.database.execution.QueryExecutor;
@@ -8,14 +8,14 @@ import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.Collection;
 
-public class UserService {
+public class UserDataDao {
 
     private static final String CREATE_QUERY = "INSERT INTO t_user (name, age) VALUES(?, ?)";
     private static final String SAVE_QUERY = "UPDATE t_user SET name = ?, age = ? WHERE id = ?";
     private static final String GET_BY_ID_QUERY = "SELECT u.name, u.age FROM t_user u WHERE id = ?";
     private static final String GET_ALL_QUERY = "SELECT u.id, u.name, u.age FROM t_user u ORDER BY u.id";
 
-    public static void createUser(UserData user) throws SQLException {
+    public void createUser(UserData user) throws SQLException {
         try (ConnectionWrapper connection = new ConnectionWrapper()) {
             QueryExecutor executor = new QueryExecutor(connection);
             executor.executePrepared(CREATE_QUERY, statement -> {
@@ -25,7 +25,7 @@ public class UserService {
         }
     }
 
-    public static void saveUser(UserData user) throws SQLException {
+    public void saveUser(UserData user) throws SQLException {
         try (ConnectionWrapper connection = new ConnectionWrapper()) {
             QueryExecutor executor = new QueryExecutor(connection);
             executor.executePrepared(SAVE_QUERY, statement -> {
@@ -37,7 +37,7 @@ public class UserService {
         }
     }
 
-    public static UserData getUserById(long id) throws SQLException {
+    public UserData getUserById(long id) throws SQLException {
         try (ConnectionWrapper connection = new ConnectionWrapper()) {
             QueryExecutor executor = new QueryExecutor(connection);
             return executor.executeGet(GET_BY_ID_QUERY, statement -> {
@@ -52,7 +52,7 @@ public class UserService {
         }
     }
 
-    public static Collection<UserData> getAll() throws SQLException {
+    public Collection<UserData> getAll() throws SQLException {
         Collection<UserData> users = new ArrayList<>();
         try (ConnectionWrapper connection = new ConnectionWrapper()) {
             QueryExecutor executor = new QueryExecutor(connection);
