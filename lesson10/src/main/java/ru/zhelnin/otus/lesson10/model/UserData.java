@@ -1,18 +1,27 @@
 package ru.zhelnin.otus.lesson10.model;
 
+import javax.persistence.Column;
+import javax.persistence.Entity;
+import javax.persistence.GeneratedValue;
+import javax.persistence.GenerationType;
+import javax.persistence.Id;
+import javax.persistence.Table;
+
+@Entity
+@Table(name = "t_hib_user")
 public class UserData {
 
+    @Id
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
+
+    @Column
     private String name;
+
+    @Column
     private Integer age;
 
     public UserData(String name, Integer age) {
-        this.name = name;
-        this.age = age;
-    }
-
-    public UserData(Long id, String name, Integer age) {
-        this.id = id;
         this.name = name;
         this.age = age;
     }

@@ -2,10 +2,11 @@ package ru.zhelnin.otus.lesson10.service;
 
 import ru.zhelnin.otus.lesson10.model.UserData;
 
+import java.io.Closeable;
 import java.sql.SQLException;
 import java.util.Collection;
 
-public interface UserDataService {
+public interface UserDataService extends Closeable {
 
     void createUser(UserData user) throws SQLException;
 

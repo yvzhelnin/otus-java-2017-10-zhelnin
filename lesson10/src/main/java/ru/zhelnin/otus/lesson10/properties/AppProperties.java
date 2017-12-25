@@ -8,14 +8,14 @@ public class AppProperties {
     private static final Properties properties = new Properties();
 
     static {
-        try (InputStream inputStream = Thread.currentThread().getContextClassLoader().getResourceAsStream("jdbc.properties")) {
+        try (InputStream inputStream = Thread.currentThread().getContextClassLoader().getResourceAsStream("hibernate.properties")) {
             properties.load(inputStream);
         } catch (Exception e) {
-            System.out.println("Couldn't read jdbc.properties");
+            System.out.println("Couldn't read hibernate.properties");
         }
     }
 
-    public static String getProperty(String key) {
-        return properties.getProperty(key);
+    public static Properties getProperties() {
+        return properties;
     }
 }
