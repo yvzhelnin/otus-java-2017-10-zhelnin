@@ -6,8 +6,11 @@ import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
+import javax.persistence.OneToMany;
 import javax.persistence.OneToOne;
 import javax.persistence.Table;
+import java.util.List;
+import java.util.stream.Collectors;
 
 @Entity
 @Table(name = "t_hib_user")
@@ -26,10 +29,14 @@ public class UserData {
     @OneToOne(cascade = CascadeType.ALL)
     private AddressData address;
 
-    public UserData(String name, Integer age, AddressData address) {
+    @OneToMany(cascade = CascadeType.ALL)
+    private List<PhoneData> phones;
+
+    public UserData(String name, Integer age, AddressData address, List<PhoneData> phones) {
         this.name = name;
         this.age = age;
         this.address = address;
+        this.phones = phones;
     }
 
     public UserData() {
@@ -59,6 +66,14 @@ public class UserData {
         this.address = address;
     }
 
+    public List<PhoneData> getPhones() {
+        return phones;
+    }
+
+    public void setPhones(List<PhoneData> phones) {
+        this.phones = phones;
+    }
+
     @Override
     public String toString() {
         return "UserData{" +
@@ -66,6 +81,7 @@ public class UserData {
                 ", name='" + name + '\'' +
                 ", age=" + age +
                 ", address=" + address.toString() +
+                ", phones=" + phones.stream().map(PhoneData::toString).collect(Collectors.joining(",")) +
                 '}';
     }
 }
