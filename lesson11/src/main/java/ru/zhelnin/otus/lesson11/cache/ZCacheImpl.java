@@ -1,6 +1,8 @@
 package ru.zhelnin.otus.lesson11.cache;
 
+import java.util.Collection;
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
 import java.util.stream.Collectors;
 
@@ -53,6 +55,10 @@ public class ZCacheImpl<K, V> implements ZCache<K, V> {
             }
         }
         return unclaimedElement == null ? null : unclaimedElement.getKey();
+    }
+
+    public List<V> getAllElements() {
+        return internalCache.values().stream().map(CachedElement::getValue).collect(Collectors.toList());
     }
 
     @Override

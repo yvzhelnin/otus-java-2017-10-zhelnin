@@ -16,7 +16,7 @@ public class Main {
 
         System.out.println(cache.toString());
 
-        System.out.println("Trying to get elements from cache:");
+        System.out.println("\nTrying to get elements from cache:");
 
         System.out.println("Key = 1: " + cache.getElement(1));
         System.out.println("Key = 2: " + cache.getElement(2));
@@ -24,10 +24,14 @@ public class Main {
         System.out.println("Key = 5: " + cache.getElement(5));
         System.out.println("Key = 6: " + cache.getElement(6));
 
-        System.out.println("Inserting a new element with evicting an unclaimed one (number 3):");
+        System.out.println("\nInserting a new element with evicting an unclaimed one (number 3):");
 
         cache.putElement(7, "7Element");
 
         System.out.println(cache.toString());
+
+        System.out.println("\nTrying to get all the elements:");
+
+        cache.getAllElements().forEach(System.out::println);
     }
 }
