@@ -33,5 +33,11 @@ public class Main {
         System.out.println("\nTrying to get all the elements:");
 
         cache.getAllElements().forEach(System.out::println);
+
+        System.out.println("\nInserting a new element with evicting an unclaimed one (number 1):");
+
+        cache.putElement(8, "8Element");
+
+        System.out.println(cache.toString());
     }
 }

@@ -7,7 +7,7 @@ public class CachedElement<K, V> {
     private final K key;
     private final SoftReference<V> value;
 
-    private long lastRequestTime = 0L;
+    private long lastRequestTime = System.currentTimeMillis();
 
     CachedElement(K key, V rawValue) {
         this.key = key;
