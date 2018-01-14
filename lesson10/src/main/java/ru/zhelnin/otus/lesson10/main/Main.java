@@ -15,8 +15,28 @@ public class Main {
 
     public static void main(String[] args) throws SQLException, IOException {
         try(UserDataService service = new UserDataServiceImpl()) {
-            List<PhoneData> phones = Arrays.asList(new PhoneData("99999999999"), (new PhoneData("333333333333")));
-            service.createUser(new UserData("Ivan", 45, new AddressData("Lenina str."), phones));
+            List<PhoneData> phonesIvan = Arrays.asList(new PhoneData("99999999999"), (new PhoneData("333333333333")));
+            List<PhoneData> phonesMax = Arrays.asList(new PhoneData("99999999999"), (new PhoneData("333333333333")));
+            List<PhoneData> phonesPeter = Arrays.asList(new PhoneData("99999999999"), (new PhoneData("333333333333")));
+            List<PhoneData> phonesAlex = Arrays.asList(new PhoneData("99999999999"), (new PhoneData("333333333333")));
+            List<PhoneData> phonesAnna = Arrays.asList(new PhoneData("99999999999"), (new PhoneData("333333333333")));
+            List<PhoneData> phonesOlga = Arrays.asList(new PhoneData("99999999999"), (new PhoneData("333333333333")));
+
+            service.createUser(new UserData("Ivan", 45, new AddressData("Lenina str."), phonesIvan));
+            service.createUser(new UserData("Max", 12, new AddressData("Truda str."), phonesMax));
+            service.createUser(new UserData("Peter", 99, new AddressData("Malysheva str."), phonesPeter));
+            service.createUser(new UserData("Alex", 30, new AddressData("Engelsa str."), phonesAlex));
+
+            service.printCache();
+
+            service.getUserById(1L);
+            service.getUserById(2L);
+            service.getUserById(4L);
+
+            service.createUser(new UserData("Anna", 20, new AddressData("Yasnaya str."), phonesAnna));
+            service.createUser(new UserData("Olga", 50, new AddressData("Mira str."), phonesOlga));
+
+            service.printCache();
 
             service.getAll().stream().map(UserData::toString).forEach(System.out::println);
 
