@@ -1,21 +1,23 @@
 package ru.zhelnin.otus.lesson10.service.dao;
 
 import org.hibernate.Session;
+import org.hibernate.SessionFactory;
 import org.hibernate.Transaction;
 
 import java.util.function.Function;
 
 class AbstractDao {
 
-    final Session session;
+    final SessionFactory sessionFactory;
 
-    AbstractDao(Session session) {
-        this.session = session;
+    AbstractDao(SessionFactory sessionFactory) {
+        this.sessionFactory = sessionFactory;
     }
 
     <T> T executeQuery(Function<Session, T> function) {
-        Transaction transaction = session.beginTransaction();
-        T result = function.apply(session);
+        Session currentSession = sessionFactory.getCurrentSession();
+        Transaction transaction = currentSession.beginTransaction();
+        T result = function.apply(currentSession);
         transaction.commit();
 
         return result;
