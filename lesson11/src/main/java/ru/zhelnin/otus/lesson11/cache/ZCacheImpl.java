@@ -6,6 +6,8 @@ import java.util.stream.Collectors;
 
 public class ZCacheImpl<K, V> implements ZCache<K, V> {
 
+    private static final int DEFAULT_MAX_SIZE = 100;
+
     private final int initialSize;
     private final int maxSize;
 
@@ -13,9 +15,9 @@ public class ZCacheImpl<K, V> implements ZCache<K, V> {
 
     public ZCacheImpl(int initialSize, int maxSize) {
         this.initialSize = initialSize;
-        this.maxSize = maxSize;
+        this.maxSize = maxSize > 0 ? maxSize : DEFAULT_MAX_SIZE;
 
-        internalCache = new HashMap<>(initialSize);
+        internalCache = initialSize > 0 ? new HashMap<>(initialSize) : new HashMap<>();
     }
 
     public V getElement(K key) {
