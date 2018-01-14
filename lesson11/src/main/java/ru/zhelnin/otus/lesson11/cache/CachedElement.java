@@ -14,7 +14,7 @@ public class CachedElement<K, V> {
         this.value = new SoftReference<>(rawValue);
     }
 
-    public K getKey() {
+    K getKey() {
         return key;
     }
 
