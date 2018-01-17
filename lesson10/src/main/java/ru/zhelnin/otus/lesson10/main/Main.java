@@ -38,7 +38,7 @@ public class Main {
 
             service.printCache();
 
-            service.getAll().stream().map(UserData::toString).forEach(System.out::println);
+            service.getAllUsersFromCache().stream().map(UserData::toString).forEach(System.out::println);
 
             UserData user = service.getUserById(1L);
             System.out.println(user.toString());

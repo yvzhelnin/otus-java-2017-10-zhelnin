@@ -64,8 +64,12 @@ public class UserDataServiceImpl implements UserDataService {
         return result;
     }
 
-    public Collection<UserData> getAll() throws SQLException {
+    public Collection<UserData> getAllUsersFromCache() throws SQLException {
         return users.getAllElements();
+    }
+
+    public Collection<UserData> getAll() throws SQLException {
+        return new UserDataDao(sessionFactory.getCurrentSession()).getAll();
     }
 
     public void close() {
