@@ -19,7 +19,7 @@ public class UserDataServiceImpl implements UserDataService {
 
     private final SessionFactory sessionFactory;
 
-    private static final ZCache<Long, UserData> users = new ZCacheImpl<>(2, 4);
+    private static final ZCache<Long, UserData> users = new ZCacheImpl<>(2, 6);
 
     public UserDataServiceImpl() {
         Configuration configuration = new Configuration();

@@ -73,6 +73,12 @@ public class ZCacheImpl<K, V> implements ZCache<K, V> {
 
     @Override
     public String toString() {
-        return internalCache.values().stream().map(CachedElement::toString).collect(Collectors.joining("\n"));
+        return "ZCacheImpl{" +
+                "initialSize=" + initialSize +
+                ", maxSize=" + maxSize +
+                ", hitsCounter=" + hitsCounter +
+                ", missesCounter=" + missesCounter +
+                ", internalCache=\n" + internalCache.values().stream().map(CachedElement::toString).collect(Collectors.joining("\n")) +
+                '}';
     }
 }
