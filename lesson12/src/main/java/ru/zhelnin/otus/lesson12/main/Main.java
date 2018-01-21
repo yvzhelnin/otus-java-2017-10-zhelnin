@@ -26,7 +26,6 @@ public class Main {
         ZCache<Long, UserData> users = new ZCacheImpl<>(2, 10);
 
         ServletContextHandler context = new ServletContextHandler(ServletContextHandler.SESSIONS);
-
         context.addServlet(new ServletHolder(new LoginServlet(Constants.USER_NAME, Constants.PASSWORD)), "/login");
         context.addServlet(new ServletHolder(new CacheServlet(users)), "/cache/getData");
 
