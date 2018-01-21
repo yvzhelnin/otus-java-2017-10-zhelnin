@@ -12,6 +12,9 @@ public class ZCacheImpl<K, V> implements ZCache<K, V> {
     private final int initialSize;
     private final int maxSize;
 
+    private int hitsCounter = 0;
+    private int missesCounter = 0;
+
     private final Map<K, CachedElement<K, V>> internalCache;
 
     public ZCacheImpl(int initialSize, int maxSize) {
@@ -22,11 +25,18 @@ public class ZCacheImpl<K, V> implements ZCache<K, V> {
     }
 
     public V getElement(K key) {
-        return internalCache.get(key) == null ? null : processReturningElement(internalCache.get(key)).getValue();
+        return internalCache.get(key) == null ? handleMiss() : handleHit(internalCache.get(key)).getValue();
     }
 
-    private CachedElement<K, V> processReturningElement(CachedElement<K, V> returningElement) {
+    private V handleMiss() {
+        missesCounter++;
+
+        return null;
+    }
+
+    private CachedElement<K, V> handleHit(CachedElement<K, V> returningElement) {
         returningElement.stampLastRequestTime();
+        hitsCounter++;
 
         return returningElement;
     }
@@ -57,6 +67,7 @@ public class ZCacheImpl<K, V> implements ZCache<K, V> {
     }
 
     public List<V> getAllElements() {
+        hitsCounter += internalCache.size();
         return internalCache.values().stream().map(CachedElement::getValue).collect(Collectors.toList());
     }
 
