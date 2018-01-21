@@ -4,6 +4,7 @@ import ru.zhelnin.otus.lesson12.model.AddressData;
 import ru.zhelnin.otus.lesson12.model.PhoneData;
 import ru.zhelnin.otus.lesson12.model.UserData;
 import ru.zhelnin.otus.lesson12.service.UserDataService;
+import util.Constants;
 
 import java.sql.SQLException;
 import java.util.Arrays;
@@ -11,7 +12,6 @@ import java.util.List;
 
 public class GeneratorThread implements Runnable {
 
-    private final static long PAUSE = 4000L;
     private final UserDataService userDataService;
 
     private static long firstId = 1L;
@@ -26,7 +26,7 @@ public class GeneratorThread implements Runnable {
         while (true) {
             try {
                 handleData();
-                Thread.sleep(PAUSE);
+                Thread.sleep(Constants.GENERATOR_PAUSE);
             } catch (SQLException | InterruptedException e) {
                 System.out.println("An error has been occured");
             }

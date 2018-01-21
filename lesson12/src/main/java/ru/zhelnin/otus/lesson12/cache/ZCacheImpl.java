@@ -3,6 +3,8 @@ package ru.zhelnin.otus.lesson12.cache;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
+import java.util.concurrent.ConcurrentHashMap;
+import java.util.concurrent.atomic.AtomicInteger;
 import java.util.stream.Collectors;
 
 public class ZCacheImpl<K, V> implements ZCache<K, V> {
@@ -12,8 +14,8 @@ public class ZCacheImpl<K, V> implements ZCache<K, V> {
     private final int initialSize;
     private final int maxSize;
 
-    private int hitsCounter = 0;
-    private int missesCounter = 0;
+    private AtomicInteger hitsCounter = new AtomicInteger(0);
+    private AtomicInteger missesCounter = new AtomicInteger(0);
 
     private final Map<K, CachedElement<K, V>> internalCache;
 
@@ -21,7 +23,23 @@ public class ZCacheImpl<K, V> implements ZCache<K, V> {
         this.initialSize = initialSize;
         this.maxSize = maxSize > 0 ? maxSize : DEFAULT_MAX_SIZE;
 
-        internalCache = initialSize > 0 ? new HashMap<>(initialSize) : new HashMap<>();
+        internalCache = initialSize > 0 ? new ConcurrentHashMap<>(initialSize) : new HashMap<>();
+    }
+
+    public int getCurrentSize() {
+        return internalCache.size();
+    }
+
+    public int getMaxSize() {
+        return maxSize;
+    }
+
+    public int getHitsCounter() {
+        return hitsCounter.get();
+    }
+
+    public int getMissesCounter() {
+        return missesCounter.get();
     }
 
     public V getElement(K key) {
@@ -29,14 +47,14 @@ public class ZCacheImpl<K, V> implements ZCache<K, V> {
     }
 
     private V handleMiss() {
-        missesCounter++;
+        missesCounter.getAndIncrement();
 
         return null;
     }
 
     private CachedElement<K, V> handleHit(CachedElement<K, V> returningElement) {
         returningElement.stampLastRequestTime();
-        hitsCounter++;
+        hitsCounter.getAndIncrement();
 
         return returningElement;
     }
@@ -67,7 +85,7 @@ public class ZCacheImpl<K, V> implements ZCache<K, V> {
     }
 
     public List<V> getAllElements() {
-        hitsCounter += internalCache.size();
+        hitsCounter.getAndAdd(internalCache.size());
         return internalCache.values().stream().map(CachedElement::getValue).collect(Collectors.toList());
     }
 

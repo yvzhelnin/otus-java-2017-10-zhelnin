@@ -4,7 +4,6 @@ import org.hibernate.SessionFactory;
 import org.hibernate.boot.registry.StandardServiceRegistryBuilder;
 import org.hibernate.cfg.Configuration;
 import ru.zhelnin.otus.lesson12.cache.ZCache;
-import ru.zhelnin.otus.lesson12.cache.ZCacheImpl;
 import ru.zhelnin.otus.lesson12.model.AddressData;
 import ru.zhelnin.otus.lesson12.model.PhoneData;
 import ru.zhelnin.otus.lesson12.model.UserData;
@@ -19,9 +18,10 @@ public class UserDataServiceImpl implements UserDataService {
 
     private final SessionFactory sessionFactory;
 
-    private static final ZCache<Long, UserData> users = new ZCacheImpl<>(2, 6);
+    private final ZCache<Long, UserData> users;
 
-    public UserDataServiceImpl() {
+    public UserDataServiceImpl(ZCache<Long, UserData> users) {
+        this.users = users;
         Configuration configuration = new Configuration();
 
         configuration.addAnnotatedClass(UserData.class);
