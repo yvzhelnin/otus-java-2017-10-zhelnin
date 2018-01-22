@@ -4,7 +4,7 @@ import ru.zhelnin.otus.lesson12.model.AddressData;
 import ru.zhelnin.otus.lesson12.model.PhoneData;
 import ru.zhelnin.otus.lesson12.model.UserData;
 import ru.zhelnin.otus.lesson12.service.UserDataService;
-import util.Constants;
+import ru.zhelnin.otus.lesson12.util.Constants;
 
 import java.sql.SQLException;
 import java.util.Arrays;

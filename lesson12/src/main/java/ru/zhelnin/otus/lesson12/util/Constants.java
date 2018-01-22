@@ -1,4 +1,4 @@
-package util;
+package ru.zhelnin.otus.lesson12.util;
 
 public final class Constants {
 

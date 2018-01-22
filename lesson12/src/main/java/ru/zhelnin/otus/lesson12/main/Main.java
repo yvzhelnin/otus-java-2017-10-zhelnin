@@ -13,7 +13,7 @@ import ru.zhelnin.otus.lesson12.service.UserDataService;
 import ru.zhelnin.otus.lesson12.service.impl.UserDataServiceImpl;
 import ru.zhelnin.otus.lesson12.servlet.CacheServlet;
 import ru.zhelnin.otus.lesson12.servlet.LoginServlet;
-import util.Constants;
+import ru.zhelnin.otus.lesson12.util.Constants;
 
 import java.io.IOException;
 import java.sql.SQLException;

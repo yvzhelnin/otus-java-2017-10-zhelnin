@@ -1,7 +1,7 @@
 package ru.zhelnin.otus.lesson12.servlet;
 
 import ru.zhelnin.otus.lesson12.servlet.abstraction.AuthCacheServlet;
-import util.Constants;
+import ru.zhelnin.otus.lesson12.util.Constants;
 
 import javax.servlet.ServletException;
 import javax.servlet.http.HttpServlet;
