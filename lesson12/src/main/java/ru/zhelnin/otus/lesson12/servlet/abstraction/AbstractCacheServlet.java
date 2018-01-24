@@ -1,10 +1,11 @@
 package ru.zhelnin.otus.lesson12.servlet.abstraction;
 
+import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletResponse;
 
-public interface AuthCacheServlet {
+public abstract class AbstractCacheServlet extends HttpServlet {
 
-    default void setError(HttpServletResponse response) {
+    protected void setError(HttpServletResponse response) {
         response.setContentType("text/plain");
         response.setStatus(HttpServletResponse.SC_UNAUTHORIZED);
     }

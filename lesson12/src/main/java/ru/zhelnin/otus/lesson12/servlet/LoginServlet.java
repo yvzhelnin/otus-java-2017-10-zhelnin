@@ -1,15 +1,14 @@
 package ru.zhelnin.otus.lesson12.servlet;
 
-import ru.zhelnin.otus.lesson12.servlet.abstraction.AuthCacheServlet;
+import ru.zhelnin.otus.lesson12.servlet.abstraction.AbstractCacheServlet;
 import ru.zhelnin.otus.lesson12.util.Constants;
 
 import javax.servlet.ServletException;
-import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import java.io.IOException;
 
-public class LoginServlet extends HttpServlet implements AuthCacheServlet {
+public class LoginServlet extends AbstractCacheServlet {
 
     private final String userName;
     private final String password;
