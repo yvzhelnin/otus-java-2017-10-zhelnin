@@ -3,7 +3,7 @@ package ru.zhelnin.otus.lesson12.servlet;
 import com.google.gson.Gson;
 import ru.zhelnin.otus.lesson12.cache.ZCache;
 import ru.zhelnin.otus.lesson12.cache.model.CacheData;
-import ru.zhelnin.otus.lesson12.servlet.abstraction.AbstractCacheServlet;
+import ru.zhelnin.otus.lesson12.servlet.abstraction.BaseServlet;
 import ru.zhelnin.otus.lesson12.util.Constants;
 
 import javax.servlet.ServletException;
@@ -11,7 +11,7 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import java.io.IOException;
 
-public class CacheServlet extends AbstractCacheServlet {
+public class CacheServlet extends BaseServlet {
 
     private final ZCache cache;
 
