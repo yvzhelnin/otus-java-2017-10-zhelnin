@@ -1,0 +1,31 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns="http://www.springframework.org/schema/beans"
+       xmlns:context="http://www.springframework.org/schema/context"
+       xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+       xsi:schemaLocation="http://www.springframework.org/schema/beans
+       http://www.springframework.org/schema/beans/spring-beans.xsd
+       http://www.springframework.org/schema/context
+       http://www.springframework.org/schema/context/spring-context-3.1.xsd">
+
+    <context:annotation-config/>
+
+    <bean id="cache" name="cache" class="ru.zhelnin.otus.lesson13.cache.ZCacheImpl">
+        <constructor-arg name="initialSize" value="2"/>
+        <constructor-arg name="maxSize" value="10"/>
+    </bean>
+
+    <bean id="userDataService" class="ru.zhelnin.otus.lesson13.service.impl.UserDataServiceImpl">
+        <constructor-arg ref="cache"/>
+    </bean>
+
+    <bean id="taskExecutor" class="org.springframework.scheduling.concurrent.ThreadPoolTaskExecutor">
+        <property name="corePoolSize" value="5" />
+        <property name="maxPoolSize" value="10" />
+        <property name="WaitForTasksToCompleteOnShutdown" value="true" />
+    </bean>
+
+    <bean id="dataGenerator" class="ru.zhelnin.otus.lesson13.generator.DataGenerator" init-method="init">
+        <constructor-arg ref="userDataService" />
+        <constructor-arg ref="taskExecutor" />
+    </bean>
+</beans>
