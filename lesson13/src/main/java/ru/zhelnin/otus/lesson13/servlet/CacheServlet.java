@@ -3,7 +3,6 @@ package ru.zhelnin.otus.lesson13.servlet;
 import com.google.gson.Gson;
 import org.springframework.web.context.support.WebApplicationContextUtils;
 import ru.zhelnin.otus.lesson13.cache.ZCache;
-import ru.zhelnin.otus.lesson13.cache.ZCacheImpl;
 import ru.zhelnin.otus.lesson13.cache.model.CacheData;
 import ru.zhelnin.otus.lesson13.servlet.abstraction.BaseServlet;
 import ru.zhelnin.otus.lesson13.util.Constants;
@@ -18,7 +17,7 @@ public class CacheServlet extends BaseServlet {
     private ZCache cache;
 
     public void init() {
-        cache = WebApplicationContextUtils.getWebApplicationContext(getServletContext()).getBean(ZCacheImpl.class);
+        cache = WebApplicationContextUtils.getWebApplicationContext(getServletContext()).getBean(ZCache.class);
     }
 
     public void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
