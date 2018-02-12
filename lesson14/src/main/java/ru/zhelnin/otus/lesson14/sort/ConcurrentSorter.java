@@ -1,7 +1,6 @@
 package ru.zhelnin.otus.lesson14.sort;
 
 import ru.zhelnin.otus.lesson14.util.ArrayDivider;
-import ru.zhelnin.otus.lesson14.util.RandomArrayBuilder;
 
 import java.util.Arrays;
 import java.util.concurrent.LinkedBlockingQueue;
@@ -12,18 +11,20 @@ public class ConcurrentSorter {
 
     public static final int THREADS_COUNT = 4;
 
-    private static final int[] source = RandomArrayBuilder.generate();
-    private static final ArrayDivider divider = new ArrayDivider(source);
+    private final ArrayDivider divider;
+    private final int[] source;
 
-    static {
-        divider.divide();
+
+    public ConcurrentSorter(int[] source) {
+        this.source = source;
+        divider = new ArrayDivider(this.source);
     }
 
-    public static int[] getSource() {
+    public int[] getSource() {
         return source;
     }
 
-    public static int[] sort(boolean withExecutor) throws InterruptedException {
+    public int[] sort(boolean withExecutor) throws InterruptedException {
         if (withExecutor) {
             sortWithExecutor();
         } else {
@@ -36,7 +37,7 @@ public class ConcurrentSorter {
         return united;
     }
 
-    private static void sortParts() throws InterruptedException {
+    private void sortParts() throws InterruptedException {
         sortPart(divider.getFirst());
         sortPart(divider.getSecond());
         sortPart(divider.getThird());
@@ -49,11 +50,11 @@ public class ConcurrentSorter {
         sortThread.join();
     }
 
-    private static void sortWithExecutor() throws InterruptedException {
+    private void sortWithExecutor() throws InterruptedException {
         sortPartsWithExecutor(new ThreadPoolExecutor(THREADS_COUNT, THREADS_COUNT, 100L, TimeUnit.MILLISECONDS, new LinkedBlockingQueue<>()));
     }
 
-    private static void sortPartsWithExecutor(ThreadPoolExecutor executor) throws InterruptedException {
+    private void sortPartsWithExecutor(ThreadPoolExecutor executor) throws InterruptedException {
         executeSortTask(executor, divider.getFirst());
         executeSortTask(executor, divider.getSecond());
         executeSortTask(executor, divider.getThird());
