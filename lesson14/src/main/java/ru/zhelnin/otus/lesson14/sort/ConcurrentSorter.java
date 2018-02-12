@@ -2,7 +2,9 @@ package ru.zhelnin.otus.lesson14.sort;
 
 import ru.zhelnin.otus.lesson14.util.ArrayDivider;
 
+import java.util.ArrayList;
 import java.util.Arrays;
+import java.util.Collection;
 import java.util.concurrent.ExecutorService;
 import java.util.concurrent.Executors;
 
@@ -16,7 +18,7 @@ public class ConcurrentSorter {
 
     public ConcurrentSorter(int[] source) {
         this.source = source;
-        divider = new ArrayDivider(this.source);
+        divider = new ArrayDivider(this.source, THREADS_COUNT);
         divider.divide();
     }
 
@@ -34,18 +36,38 @@ public class ConcurrentSorter {
     }
 
     private void sortParts() throws InterruptedException {
-        sortPart(divider.getFirst());
-        sortPart(divider.getSecond());
-        sortPart(divider.getThird());
-        sortPart(divider.getForth());
+        for (Thread currentThread : runSortingThreads()) {
+            finishThread(currentThread);
+        }
     }
 
-    private static void sortPart(int[] part) throws InterruptedException {
-        System.err.println("sort start");
-        Thread sortThread = new Thread(() -> Arrays.sort(part));
+    private Iterable<Thread> runSortingThreads() throws InterruptedException {
+        int i = 1;
+        Collection<Thread> threads = new ArrayList<>();
+        for (int[] currentPart : divider.getSubArrays()) {
+            threads.add(sortPart(currentPart, i++));
+        }
+
+        return threads;
+    }
+
+    private Thread sortPart(int[] part, int index) throws InterruptedException {
+        final String threadName = "Sorting-thread-" + index;
+        System.out.println("sort started, thread " + threadName);
+
+        return runThread(new Thread(() -> Arrays.sort(part)), threadName);
+    }
+
+    private Thread runThread(Thread sortThread, String name) {
+        sortThread.setName(name);
         sortThread.start();
-        sortThread.join();
-        System.err.println("sort done");
+
+        return sortThread;
+    }
+
+    private void finishThread(Thread thread) throws InterruptedException {
+        thread.join();
+        System.out.println("sort done, thread " + thread.getName());
     }
 
     private void sortWithExecutor() throws InterruptedException {
@@ -53,10 +75,9 @@ public class ConcurrentSorter {
     }
 
     private void sortPartsWithExecutor(ExecutorService executor) throws InterruptedException {
-        executeSortTask(executor, divider.getFirst());
-        executeSortTask(executor, divider.getSecond());
-        executeSortTask(executor, divider.getThird());
-        executeSortTask(executor, divider.getForth());
+        for (int[] currentPart : divider.getSubArrays()) {
+            executeSortTask(executor, currentPart);
+        }
     }
 
     private static void executeSortTask(ExecutorService executor, int[] part) {

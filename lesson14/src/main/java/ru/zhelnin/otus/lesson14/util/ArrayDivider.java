@@ -1,31 +1,35 @@
 package ru.zhelnin.otus.lesson14.util;
 
-import ru.zhelnin.otus.lesson14.sort.ConcurrentSorter;
-
 public class ArrayDivider {
 
     private final int[] source;
+    private final int count;
 
-    private final int[] first;
-    private final int[] second;
-    private final int[] third;
-    private final int[] forth;
+    private int[][] subArrays;
 
-    public ArrayDivider(int[] source) {
+    public ArrayDivider(int[] source, int count) {
         this.source = source;
-        final int standardSubArraySize = source.length / ConcurrentSorter.THREADS_COUNT;
-        first = new int[standardSubArraySize];
-        second = new int[standardSubArraySize];
-        third = new int[standardSubArraySize];
-        forth = new int[source.length - standardSubArraySize * 3];
+        this.count = count;
+        fillSubArrays();
+    }
+
+    private void fillSubArrays() {
+        subArrays = new int[count][];
+        final int subArraySize = source.length / count;
+        for (int i = 0; i < count - 1; i++) {
+            subArrays[i] = new int[subArraySize];
+        }
+        subArrays[count - 1] = new int[source.length - subArraySize * (count - 1)];
     }
 
     public void divide() {
-        int index = 0;
-        divideCurrent(first, index);
-        divideCurrent(second, index += first.length);
-        divideCurrent(third, index += second.length);
-        divideCurrent(forth, index += third.length);
+        int previousLength = 0;
+        for (int i = 0; i < subArrays.length; i++) {
+            if (i > 0) {
+                previousLength += subArrays[i - 1].length;
+            }
+            divideCurrent(subArrays[i], previousLength);
+        }
     }
 
     private void divideCurrent(int[] target, int startIndex) {
@@ -34,36 +38,26 @@ public class ArrayDivider {
 
     public int[] assembleBack() {
         int[] result = new int[source.length];
-        processParts(result);
+        assembleParts(result);
 
         return result;
     }
 
-    private void processParts(int[] result) {
-        int index = 0;
-        addCurrent(first, result, index);
-        addCurrent(second, result, index += first.length);
-        addCurrent(third, result, index += second.length);
-        addCurrent(forth, result, index += third.length);
+    private void assembleParts(int[] result) {
+        int previousLength = 0;
+        for (int i = 0; i < subArrays.length; i++) {
+            if (i > 0) {
+                previousLength += subArrays[i - 1].length;
+            }
+            addCurrent(result, subArrays[i], previousLength);
+        }
     }
 
-    private void addCurrent(int[] source, int[] target, int startIndex) {
+    private void addCurrent(int[] target, int[] source, int startIndex) {
         System.arraycopy(source, 0, target, startIndex, source.length);
     }
 
-    public int[] getFirst() {
-        return first;
-    }
-
-    public int[] getSecond() {
-        return second;
-    }
-
-    public int[] getThird() {
-        return third;
-    }
-
-    public int[] getForth() {
-        return forth;
+    public int[][] getSubArrays() {
+        return subArrays;
     }
 }
