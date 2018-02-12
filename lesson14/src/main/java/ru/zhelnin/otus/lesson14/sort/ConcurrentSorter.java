@@ -61,6 +61,6 @@ public class ConcurrentSorter {
     }
 
     private static void executeSortTask(ThreadPoolExecutor executor, int[] part) {
-        executor.execute(new Thread(() -> Arrays.sort(part)));
+        executor.execute(() -> Arrays.sort(part));
     }
 }
