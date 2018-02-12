@@ -3,9 +3,8 @@ package ru.zhelnin.otus.lesson14.sort;
 import ru.zhelnin.otus.lesson14.util.ArrayDivider;
 
 import java.util.Arrays;
-import java.util.concurrent.LinkedBlockingQueue;
-import java.util.concurrent.ThreadPoolExecutor;
-import java.util.concurrent.TimeUnit;
+import java.util.concurrent.ExecutorService;
+import java.util.concurrent.Executors;
 
 public class ConcurrentSorter {
 
@@ -50,17 +49,17 @@ public class ConcurrentSorter {
     }
 
     private void sortWithExecutor() throws InterruptedException {
-        sortPartsWithExecutor(new ThreadPoolExecutor(THREADS_COUNT, THREADS_COUNT, 100L, TimeUnit.MILLISECONDS, new LinkedBlockingQueue<>()));
+        sortPartsWithExecutor(Executors.newFixedThreadPool(THREADS_COUNT));
     }
 
-    private void sortPartsWithExecutor(ThreadPoolExecutor executor) throws InterruptedException {
+    private void sortPartsWithExecutor(ExecutorService executor) throws InterruptedException {
         executeSortTask(executor, divider.getFirst());
         executeSortTask(executor, divider.getSecond());
         executeSortTask(executor, divider.getThird());
         executeSortTask(executor, divider.getForth());
     }
 
-    private static void executeSortTask(ThreadPoolExecutor executor, int[] part) {
+    private static void executeSortTask(ExecutorService executor, int[] part) {
         executor.execute(() -> Arrays.sort(part));
     }
 }
