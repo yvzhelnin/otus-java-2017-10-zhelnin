@@ -23,38 +23,36 @@ public class ArrayDivider {
     }
 
     public void divide() {
-        int previousLength = 0;
-        for (int i = 0; i < subArrays.length; i++) {
-            if (i > 0) {
-                previousLength += subArrays[i - 1].length;
-            }
-            divideCurrent(subArrays[i], previousLength);
-        }
+        processParts(this::divideCurrent, source, true);
     }
 
-    private void divideCurrent(int[] target, int startIndex) {
-        System.arraycopy(source, startIndex, target, 0, target.length);
+    private void divideCurrent(int[] target, int[] raw, int startIndex) {
+        System.arraycopy(raw, startIndex, target, 0, target.length);
     }
 
     public int[] assembleBack() {
         int[] result = new int[source.length];
-        assembleParts(result);
+        processParts(this::addCurrent, result, false);
 
         return result;
     }
 
-    private void assembleParts(int[] result) {
+    private void addCurrent(int[] target, int[] source, int startIndex) {
+        System.arraycopy(source, 0, target, startIndex, source.length);
+    }
+
+    private void processParts(DivideAction action, int[] result, boolean isDividing) {
         int previousLength = 0;
         for (int i = 0; i < subArrays.length; i++) {
             if (i > 0) {
                 previousLength += subArrays[i - 1].length;
             }
-            addCurrent(result, subArrays[i], previousLength);
+            if (isDividing) {
+                action.apply(subArrays[i], result, previousLength);
+            } else {
+                action.apply(result, subArrays[i], previousLength);
+            }
         }
-    }
-
-    private void addCurrent(int[] target, int[] source, int startIndex) {
-        System.arraycopy(source, 0, target, startIndex, source.length);
     }
 
     public int[][] getSubArrays() {

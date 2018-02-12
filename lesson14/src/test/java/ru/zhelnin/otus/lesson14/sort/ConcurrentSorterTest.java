@@ -14,7 +14,7 @@ public class ConcurrentSorterTest {
 
     @Before
     public void makeSorter() {
-        source = RandomArrayGenerator.generate(10000);
+        source = RandomArrayGenerator.generate(100);
         sorter = new ConcurrentSorter(source);
     }
 
