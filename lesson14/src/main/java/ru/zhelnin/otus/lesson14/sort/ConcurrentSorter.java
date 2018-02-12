@@ -18,6 +18,7 @@ public class ConcurrentSorter {
     public ConcurrentSorter(int[] source) {
         this.source = source;
         divider = new ArrayDivider(this.source);
+        divider.divide();
     }
 
     public int[] getSource() {
@@ -45,9 +46,11 @@ public class ConcurrentSorter {
     }
 
     private static void sortPart(int[] part) throws InterruptedException {
+        System.err.println("sort start");
         Thread sortThread = new Thread(() -> Arrays.sort(part));
         sortThread.start();
         sortThread.join();
+        System.err.println("sort done");
     }
 
     private void sortWithExecutor() throws InterruptedException {

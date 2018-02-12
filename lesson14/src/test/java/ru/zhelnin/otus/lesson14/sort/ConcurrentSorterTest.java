@@ -13,11 +13,12 @@ public class ConcurrentSorterTest {
 
     @Before
     public void makeSorter() {
-        sorter = new ConcurrentSorter(RandomArrayGenerator.generate(100));
+
     }
 
     @Test
     public void lowLevelSortTest() throws InterruptedException {
+        sorter = new ConcurrentSorter(RandomArrayGenerator.generate(100));
         int[] source = sorter.getSource();
         Arrays.parallelSort(source);
         int[] sorted = sorter.sort(false);
@@ -27,6 +28,7 @@ public class ConcurrentSorterTest {
 
     @Test
     public void executorSortTest() throws InterruptedException {
+        sorter = new ConcurrentSorter(RandomArrayGenerator.generate(100));
         int[] source = sorter.getSource();
         Arrays.parallelSort(source);
         int[] sorted = sorter.sort(true);
