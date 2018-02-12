@@ -9,17 +9,17 @@ import java.util.Arrays;
 
 public class ConcurrentSorterTest {
 
+    private int[] source;
     private ConcurrentSorter sorter;
 
     @Before
     public void makeSorter() {
-
+        source = RandomArrayGenerator.generate(100);
+        sorter = new ConcurrentSorter(source);
     }
 
     @Test
     public void lowLevelSortTest() throws InterruptedException {
-        sorter = new ConcurrentSorter(RandomArrayGenerator.generate(100));
-        int[] source = sorter.getSource();
         Arrays.parallelSort(source);
         int[] sorted = sorter.sort(false);
 
@@ -28,8 +28,6 @@ public class ConcurrentSorterTest {
 
     @Test
     public void executorSortTest() throws InterruptedException {
-        sorter = new ConcurrentSorter(RandomArrayGenerator.generate(100));
-        int[] source = sorter.getSource();
         Arrays.parallelSort(source);
         int[] sorted = sorter.sort(true);
 

@@ -21,10 +21,6 @@ public class ConcurrentSorter {
         divider.divide();
     }
 
-    public int[] getSource() {
-        return source;
-    }
-
     public int[] sort(boolean withExecutor) throws InterruptedException {
         if (withExecutor) {
             sortWithExecutor();
