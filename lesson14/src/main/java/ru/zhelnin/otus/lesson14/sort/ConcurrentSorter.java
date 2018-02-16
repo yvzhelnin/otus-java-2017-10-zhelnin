@@ -8,9 +8,10 @@ import java.util.Collection;
 import java.util.concurrent.ExecutorService;
 import java.util.concurrent.Executors;
 
+@SuppressWarnings("WeakerAccess")
 public class ConcurrentSorter {
 
-    public static final int THREADS_COUNT = 4;
+    public static final int THREADS_COUNT = 2;
 
     private final ArrayDivider divider;
     private final int[] source;
@@ -26,7 +27,7 @@ public class ConcurrentSorter {
         if (withExecutor) {
             sortWithExecutor();
         } else {
-            sortParts();
+            handleSimpleThreads();
         }
 
         int[] united = divider.assembleBack();
@@ -35,13 +36,22 @@ public class ConcurrentSorter {
         return united;
     }
 
-    private void sortParts() throws InterruptedException {
-        for (Thread currentThread : runSortingThreads()) {
-            finishThread(currentThread);
-        }
+    private void handleSimpleThreads() {
+        Iterable<Thread> runThreads = runSortingThreads();
+        joinSimpleThreadsThreads(runThreads);
     }
 
-    private Iterable<Thread> runSortingThreads() throws InterruptedException {
+    private void joinSimpleThreadsThreads(Iterable<Thread> threads) {
+        threads.forEach(e -> {
+            try {
+                e.join();
+            } catch (InterruptedException ex) {
+                System.err.println("Couldn't join a thread " + e.getName());
+            }
+        });
+    }
+
+    private Iterable<Thread> runSortingThreads() {
         int i = 1;
         Collection<Thread> threads = new ArrayList<>();
         for (int[] currentPart : divider.getSubArrays()) {
@@ -51,11 +61,14 @@ public class ConcurrentSorter {
         return threads;
     }
 
-    private Thread sortPart(int[] part, int index) throws InterruptedException {
+    private Thread sortPart(int[] part, int index) {
         final String threadName = "Sorting-thread-" + index;
-        System.out.println("sort started, thread " + threadName);
+        System.err.println("sort started, thread " + threadName);
 
-        return runThread(new Thread(() -> Arrays.sort(part)), threadName);
+        return runThread(new Thread(() -> {
+            Arrays.sort(part);
+            System.err.println("sort done, thread " + threadName);
+        }), threadName);
     }
 
     private Thread runThread(Thread sortThread, String name) {
@@ -63,11 +76,6 @@ public class ConcurrentSorter {
         sortThread.start();
 
         return sortThread;
-    }
-
-    private void finishThread(Thread thread) throws InterruptedException {
-        thread.join();
-        System.out.println("sort done, thread " + thread.getName());
     }
 
     private void sortWithExecutor() throws InterruptedException {
