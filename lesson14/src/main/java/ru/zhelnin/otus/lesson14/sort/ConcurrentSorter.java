@@ -38,10 +38,10 @@ public class ConcurrentSorter {
 
     private void handleSimpleThreads() {
         Iterable<Thread> runThreads = runSortingThreads();
-        joinSimpleThreadsThreads(runThreads);
+        joinSimpleThreads(runThreads);
     }
 
-    private void joinSimpleThreadsThreads(Iterable<Thread> threads) {
+    private void joinSimpleThreads(Iterable<Thread> threads) {
         threads.forEach(e -> {
             try {
                 e.join();
