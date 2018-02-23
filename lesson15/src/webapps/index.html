@@ -1,0 +1,31 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Статистика кеша</title>
+    <link rel="stylesheet" type="text/css" href="app.css">
+</head>
+<body>
+<div id="loginForm">
+    <div class="container">
+        <label><b>Username</b></label>
+        <input type="text" placeholder="Enter Username" id="uname" class="form-element"><br>
+        <label><b>Password</b></label>
+        <input type="password" placeholder="Enter Password" id="psw" class="form-element"><br>
+        <input type="button" id="loginButton" value="Login" class="login-button form-element">
+    </div>
+</div>
+<div id="cacheInfo" hidden>
+    <label>Максимальный размер кеша:</label>
+    <span id="maxCacheSize"></span><br>
+    <label>Текущий размер кеша:</label>
+    <span id="currentCacheSize"></span><br>
+    <label>Количество попаданий:</label>
+    <span id="hitsCount"></span><br>
+    <label>Количество промахов:</label>
+    <span id="missesCount"></span><br>
+</div>
+<script src="jquery-3.2.1.js"></script>
+<script src="index.js"></script>
+</body>
+</html>
