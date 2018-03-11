@@ -17,6 +17,4 @@ public interface UserDataService extends Closeable {
     Collection<UserData> getAllUsersFromCache() throws SQLException;
 
     Collection<UserData> getAll() throws SQLException;
-
-    void printCache();
 }

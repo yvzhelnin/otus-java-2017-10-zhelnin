@@ -1,7 +1,7 @@
 "use strict";
 
 $('#loginButton').click(function () {
-    var socket = new WebSocket("ws://localhost:8080/getCacheData/" + $('#uname').val() + '/' + $('#psw').val());
+    var socket = new WebSocket("ws://localhost:8080/frontend/getCacheData/" + $('#uname').val() + '/' + $('#psw').val());
     socket.onopen = function (event) {
         socket.send('');
         $('#loginForm').hide();

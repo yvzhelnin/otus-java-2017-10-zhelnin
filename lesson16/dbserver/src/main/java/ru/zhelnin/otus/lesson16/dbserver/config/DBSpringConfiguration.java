@@ -9,7 +9,6 @@ import ru.zhelnin.otus.lesson16.dbserver.cache.ZCache;
 import ru.zhelnin.otus.lesson16.dbserver.cache.ZCacheImpl;
 import ru.zhelnin.otus.lesson16.dbserver.generator.DataGenerator;
 import ru.zhelnin.otus.lesson16.dbserver.service.UserDataService;
-import ru.zhelnin.otus.lesson16.dbserver.socket.DBSocketClient;
 
 @Configuration
 public class DBSpringConfiguration {
@@ -32,10 +31,5 @@ public class DBSpringConfiguration {
     @Bean(initMethod = "init")
     public DataGenerator dataGenerator() {
         return new DataGenerator(userDataService(), threadPoolTaskExecutor());
-    }
-
-    @Bean(initMethod = "start")
-    public DBSocketClient socketClient() {
-        return new DBSocketClient();
     }
 }

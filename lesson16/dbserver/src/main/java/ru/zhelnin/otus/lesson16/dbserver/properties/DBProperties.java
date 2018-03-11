@@ -2,8 +2,11 @@ package ru.zhelnin.otus.lesson16.dbserver.properties;
 
 import java.io.InputStream;
 import java.util.Properties;
+import java.util.logging.Logger;
 
 public class DBProperties {
+
+    private static final Logger logger = Logger.getLogger(DBProperties.class.getName());
 
     private static final String PROPERTIES_FILE_NAME = "hibernate.properties";
     private static final Properties properties = new Properties();
@@ -12,7 +15,7 @@ public class DBProperties {
         try (InputStream inputStream = Thread.currentThread().getContextClassLoader().getResourceAsStream(PROPERTIES_FILE_NAME)) {
             properties.load(inputStream);
         } catch (Exception e) {
-            System.out.println("Couldn't read " + PROPERTIES_FILE_NAME);
+            logger.severe("Couldn't read " + PROPERTIES_FILE_NAME);
         }
     }
 

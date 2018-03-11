@@ -29,6 +29,7 @@ public class FrontendSocketClient {
                 }
             } catch (InterruptedException e) {
                 logger.log(Level.SEVERE, e.getMessage());
+                e.printStackTrace();
             }
         });
         client.close();
@@ -36,6 +37,7 @@ public class FrontendSocketClient {
     }
 
     public void sendMessage(Message message) {
+        logger.info("Sending message: " + message.toString());
         client.send(message);
     }
 }

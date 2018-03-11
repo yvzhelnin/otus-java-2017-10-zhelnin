@@ -9,8 +9,11 @@ import ru.zhelnin.otus.lesson16.dbserver.util.Constants;
 import java.sql.SQLException;
 import java.util.Arrays;
 import java.util.List;
+import java.util.logging.Logger;
 
 public class GeneratorThread implements Runnable {
+
+    private static final Logger logger = Logger.getLogger(GeneratorThread.class.getName());
 
     private final UserDataService userDataService;
 
@@ -28,7 +31,7 @@ public class GeneratorThread implements Runnable {
                 handleData();
                 Thread.sleep(Constants.GENERATOR_PAUSE);
             } catch (SQLException | InterruptedException e) {
-                System.out.println("An error has been occured");
+                logger.severe("An error has been occured");
             }
         }
     }
@@ -38,7 +41,6 @@ public class GeneratorThread implements Runnable {
         generateUserData(userDataService);
         userDataService.getUserById(currentId++);
         getEvictedElement();
-        userDataService.printCache();
     }
 
     private void getEvictedElement() throws SQLException {

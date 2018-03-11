@@ -13,8 +13,11 @@ import ru.zhelnin.otus.lesson16.dbserver.service.UserDataService;
 
 import java.sql.SQLException;
 import java.util.Collection;
+import java.util.logging.Logger;
 
 public class UserDataServiceImpl implements UserDataService {
+
+    private static final Logger logger = Logger.getLogger(UserDataServiceImpl.class.getName());
 
     private final SessionFactory sessionFactory;
 
@@ -59,7 +62,7 @@ public class UserDataServiceImpl implements UserDataService {
             result = new UserDataDao(sessionFactory.getCurrentSession()).getUserById(id);
             updateCache(result);
         } else {
-            System.out.println("Got user from cache");
+            logger.info("Got user from cache");
         }
         return result;
     }
@@ -74,11 +77,5 @@ public class UserDataServiceImpl implements UserDataService {
 
     public void close() {
         sessionFactory.close();
-    }
-
-    public void printCache() {
-        System.out.println("\nPrinting current cache:\n");
-        System.out.println(users);
-        System.out.println("\n");
     }
 }

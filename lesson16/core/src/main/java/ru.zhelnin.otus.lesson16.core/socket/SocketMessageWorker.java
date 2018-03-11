@@ -55,8 +55,8 @@ public class SocketMessageWorker implements MessageWorker {
     }
 
     public void init() {
-        executor.execute(this::sendMessage);
-        executor.execute(this::receiveMessage);
+  /*      executor.execute(this::sendMessage);
+        executor.execute(this::receiveMessage);*/
     }
 
     private void sendMessage() {
@@ -86,7 +86,7 @@ public class SocketMessageWorker implements MessageWorker {
                 }
             }
         } catch (IOException | ParseException e) {
-            logger.log(Level.SEVERE, e.getMessage());
+            logger.log(Level.SEVERE, "Couldn't read from socket: " + e.getMessage());
         } catch (ClassNotFoundException e) {
             e.printStackTrace();
         }
