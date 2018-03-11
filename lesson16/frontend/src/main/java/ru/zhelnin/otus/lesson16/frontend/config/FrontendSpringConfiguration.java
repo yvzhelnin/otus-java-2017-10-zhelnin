@@ -19,7 +19,7 @@ public class FrontendSpringConfiguration {
         return new FrontendMessageWorker(new Socket(HOST, PORT));
     }
 
-    @Bean(initMethod = "start")
+    @Bean(/*initMethod = "start"*/)
     public FrontendSocketClient socketClient() throws IOException {
         return new FrontendSocketClient(frontendMessageWorker());
     }

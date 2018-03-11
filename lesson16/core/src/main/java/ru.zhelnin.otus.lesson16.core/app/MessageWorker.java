@@ -6,6 +6,8 @@ import java.io.IOException;
 
 public interface MessageWorker {
 
+    void init();
+
     void send(Message message);
 
     Message pull();

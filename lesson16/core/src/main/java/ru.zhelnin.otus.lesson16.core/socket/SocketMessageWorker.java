@@ -6,6 +6,7 @@ import org.json.simple.parser.JSONParser;
 import org.json.simple.parser.ParseException;
 import ru.zhelnin.otus.lesson16.core.app.MessageWorker;
 import ru.zhelnin.otus.lesson16.core.message.Message;
+
 import java.io.BufferedReader;
 import java.io.IOException;
 import java.io.InputStreamReader;
@@ -55,8 +56,8 @@ public class SocketMessageWorker implements MessageWorker {
     }
 
     public void init() {
-  /*      executor.execute(this::sendMessage);
-        executor.execute(this::receiveMessage);*/
+        executor.execute(this::sendMessage);
+        executor.execute(this::receiveMessage);
     }
 
     private void sendMessage() {
@@ -64,6 +65,7 @@ public class SocketMessageWorker implements MessageWorker {
             while (socket.isConnected()) {
                 Message message = output.take();
                 String json = new Gson().toJson(message);
+                logger.info("Jsonified message: " + json);
                 out.println(json);
                 out.println();
             }
@@ -73,13 +75,15 @@ public class SocketMessageWorker implements MessageWorker {
     }
 
     private void receiveMessage() {
-        try (BufferedReader in = new BufferedReader(new InputStreamReader(socket.getInputStream()))) {
+        try (BufferedReader inputReader = new BufferedReader(new InputStreamReader(socket.getInputStream()))) {
             String inputLine;
             StringBuilder stringBuilder = new StringBuilder();
-            while ((inputLine = in.readLine()) != null) {
+            while ((inputLine = inputReader.readLine()) != null) {
+                logger.info("Getting line: " + inputLine);
                 stringBuilder.append(inputLine);
                 if (inputLine.isEmpty()) {
                     String json = stringBuilder.toString();
+                    logger.info("Got jsonified message: " + json);
                     Message message = getMessageFromJSON(json);
                     input.add(message);
                     stringBuilder = new StringBuilder();
@@ -97,7 +101,9 @@ public class SocketMessageWorker implements MessageWorker {
         JSONObject jsonObject = (JSONObject) jsonParser.parse(json);
         String className = (String) jsonObject.get(Message.CLASS_NAME_VARIABLE);
         Class<?> messageClass = Class.forName(className);
+        Message parsedMessage = (Message) new Gson().fromJson(json, messageClass);
+        logger.info("Parsed json to message: " + parsedMessage);
 
-        return (Message) new Gson().fromJson(json, messageClass);
+        return parsedMessage;
     }
 }
