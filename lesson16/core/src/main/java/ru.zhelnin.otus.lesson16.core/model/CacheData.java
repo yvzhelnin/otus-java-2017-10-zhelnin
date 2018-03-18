@@ -16,4 +16,20 @@ public class CacheData {
         this.hitsCount = hitsCount;
         this.missesCount = missesCount;
     }
+
+    public int getMaxCacheSize() {
+        return maxCacheSize;
+    }
+
+    public int getCurrentCacheSize() {
+        return currentCacheSize;
+    }
+
+    public int getHitsCount() {
+        return hitsCount;
+    }
+
+    public int getMissesCount() {
+        return missesCount;
+    }
 }

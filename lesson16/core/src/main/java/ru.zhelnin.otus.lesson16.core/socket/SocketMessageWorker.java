@@ -30,15 +30,13 @@ public class SocketMessageWorker implements MessageWorker {
     private final ExecutorService executor;
     private final Socket socket;
 
-    private final String address;
-
-    public SocketMessageWorker(Socket socket, String address) {
-        this.address = address;
+    public SocketMessageWorker(Socket socket) {
         this.socket = socket;
         this.executor = Executors.newFixedThreadPool(WORKERS_COUNT);
     }
 
     public void send(Message message) {
+        logger.info("Sending a message: " + message.toString());
         output.add(message);
     }
 
@@ -47,8 +45,12 @@ public class SocketMessageWorker implements MessageWorker {
     }
 
     public Message take() throws InterruptedException {
-        return input.take();
+        Message tokenMessage = input.take();
+        logger.info("Took a message: " + tokenMessage.toString());
+        return tokenMessage;
     }
+
+
 
     public void addMessage(Message message) {
         input.add(message);
@@ -56,11 +58,6 @@ public class SocketMessageWorker implements MessageWorker {
 
     public void close() throws IOException {
         executor.shutdown();
-    }
-
-    @Override
-    public String getAddress() {
-        return address;
     }
 
     public void init() {

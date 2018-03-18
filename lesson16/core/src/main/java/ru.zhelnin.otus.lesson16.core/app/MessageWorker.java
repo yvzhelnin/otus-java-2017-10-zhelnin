@@ -15,6 +15,4 @@ public interface MessageWorker {
     Message take() throws InterruptedException;
 
     void close() throws IOException;
-
-    String getAddress();
 }

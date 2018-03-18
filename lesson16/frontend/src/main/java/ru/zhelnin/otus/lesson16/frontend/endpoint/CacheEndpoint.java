@@ -40,8 +40,7 @@ public class CacheEndpoint {
     public void onMessage(String message, Session session) throws IOException, EncodeException {
         frontendSocketClient.sendMessage(
                 new RequestMessage(RequestMessage.class,
-                        BaseConstants.FRONTEND_CACHE_DATA_REQUEST,
-                        BaseConstants.DB_ADDRESS));
+                        BaseConstants.FRONTEND_CACHE_DATA_REQUEST, BaseConstants.DB_ADDRESS));
         //     session.getBasicRemote().sendText(new Gson().toJson(data != null ? data : ""));
     }
 

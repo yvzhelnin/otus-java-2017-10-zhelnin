@@ -16,13 +16,13 @@ public class DBServerRunner {
     public static void run(String pathPrefix) {
         ScheduledExecutorService executorService = Executors.newSingleThreadScheduledExecutor();
         executorService.schedule(() -> {
-            logger.info("Attempting to start database server process");
+            logger.info("Attempting to start database server process with command " + JAVA_COMMAND);
             try {
                 new ProcessRunnerImpl().start(JAVA_COMMAND + pathPrefix + "/dbserver/target/dbserver-1.0-SNAPSHOT.jar");
+                logger.info("Database server process was started");
             } catch (IOException e) {
                 logger.log(Level.SEVERE, e.getMessage());
             }
-            logger.info("Database server process was started");
-        }, 5, TimeUnit.SECONDS);
+        }, 20, TimeUnit.SECONDS);
     }
 }

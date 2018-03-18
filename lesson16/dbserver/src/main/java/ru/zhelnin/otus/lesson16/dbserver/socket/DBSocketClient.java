@@ -1,6 +1,10 @@
 package ru.zhelnin.otus.lesson16.dbserver.socket;
 
+import ru.zhelnin.otus.lesson16.core.message.CacheDataMessage;
 import ru.zhelnin.otus.lesson16.core.message.Message;
+import ru.zhelnin.otus.lesson16.core.message.RequestMessage;
+import ru.zhelnin.otus.lesson16.core.util.BaseConstants;
+import ru.zhelnin.otus.lesson16.dbserver.app.CacheService;
 
 import java.io.IOException;
 import java.util.concurrent.ExecutorService;
@@ -13,9 +17,11 @@ public class DBSocketClient {
     private final Logger logger = Logger.getLogger(DBSocketClient.class.getName());
 
     private final DBMessageWorker client;
+    private final CacheService service;
 
-    public DBSocketClient(DBMessageWorker client) throws IOException {
+    public DBSocketClient(DBMessageWorker client, CacheService service) throws IOException {
         this.client = client;
+        this.service = service;
     }
 
     @SuppressWarnings("InfiniteLoopStatement")
@@ -24,19 +30,20 @@ public class DBSocketClient {
         executorService.submit(() -> {
             try {
                 while (true) {
-                    Object message = client.take();
-                    logger.info("Message received: " + message.toString());
+                    Object message = client.pull();
+                    if (message instanceof RequestMessage && ((RequestMessage) message).getAddress().equals(BaseConstants.DB_ADDRESS)) {
+                        client.take();
+                        sendMessage(new CacheDataMessage(service.getCacheData(), BaseConstants.FRONTEND_ADDRESS));
+                    }
                 }
             } catch (InterruptedException e) {
                 logger.log(Level.SEVERE, e.getMessage());
                 e.printStackTrace();
             }
         });
-        client.close();
-        executorService.shutdown();
     }
 
-    public void sendMessage(Message message) {
+    private void sendMessage(Message message) {
         logger.info("Sending message: " + message.toString());
         client.send(message);
     }

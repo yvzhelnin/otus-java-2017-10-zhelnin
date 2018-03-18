@@ -29,7 +29,7 @@ public class MessageServer {
     }
 
     public void start() {
-        executor.submit(this::answer);
+        executor.submit(this::handle);
         executor.submit(() -> {
             try (ServerSocket serverSocket = new ServerSocket(PORT)) {
                 logger.info("Server started on port: " + serverSocket.getLocalPort());
@@ -47,20 +47,21 @@ public class MessageServer {
     }
 
     @SuppressWarnings("InfiniteLoopStatement")
-    private void answer() {
+    private void handle() {
         while (true) {
             for (MessageWorker client : clients) {
                 Message message = client.pull();
                 while (message != null) {
-                    findAddressee(message.getAddress()).send(message);
+                    logger.info("Handling a message: " + message.toString());
+                    sendMessage(message);
                     message = client.pull();
                 }
             }
         }
     }
 
-    private MessageWorker findAddressee(String address) {
-        return clients.stream().filter(e -> e.getAddress().equals(address)).findFirst().get();
+    private void sendMessage(Message message) {
+        clients.forEach(e -> e.send(message));
     }
 
     public boolean getRunning() {

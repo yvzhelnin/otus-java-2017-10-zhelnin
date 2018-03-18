@@ -32,8 +32,6 @@ public class FrontendSocketClient {
                 e.printStackTrace();
             }
         });
-        client.close();
-        executorService.shutdown();
     }
 
     public void sendMessage(Message message) {
