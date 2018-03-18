@@ -1,5 +1,6 @@
 package ru.zhelnin.otus.lesson16.frontend.endpoint;
 
+import com.google.gson.Gson;
 import ru.zhelnin.otus.lesson16.core.message.RequestMessage;
 import ru.zhelnin.otus.lesson16.core.model.CacheData;
 import ru.zhelnin.otus.lesson16.core.util.BaseConstants;
@@ -21,7 +22,7 @@ import java.io.IOException;
 public class CacheEndpoint {
 
     private static FrontendSocketClient frontendSocketClient = FrontendWebAppInitializer.getContext().getBean(FrontendSocketClient.class);
-    private CacheData data;
+    private static CacheData cacheData;
 
     @OnOpen
     public void onOpen(Session session,
@@ -39,9 +40,8 @@ public class CacheEndpoint {
     @OnMessage
     public void onMessage(String message, Session session) throws IOException, EncodeException {
         frontendSocketClient.sendMessage(
-                new RequestMessage(RequestMessage.class,
-                        BaseConstants.FRONTEND_CACHE_DATA_REQUEST, BaseConstants.DB_ADDRESS));
-        //     session.getBasicRemote().sendText(new Gson().toJson(data != null ? data : ""));
+                new RequestMessage(RequestMessage.class, BaseConstants.FRONTEND_CACHE_DATA_REQUEST, BaseConstants.DB_ADDRESS));
+             session.getBasicRemote().sendText(new Gson().toJson(cacheData != null ? cacheData : ""));
     }
 
     @OnError
@@ -54,7 +54,7 @@ public class CacheEndpoint {
         session.getBasicRemote().sendText("Session closed");
     }
 
-    public void updateCacheData(CacheData data) {
-        this.data = data;
+    public static void updateCacheData(CacheData data) {
+        cacheData = data;
     }
 }

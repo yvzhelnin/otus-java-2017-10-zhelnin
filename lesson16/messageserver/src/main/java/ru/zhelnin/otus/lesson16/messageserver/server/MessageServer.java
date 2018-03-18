@@ -50,7 +50,12 @@ public class MessageServer {
     private void handle() {
         while (true) {
             for (MessageWorker client : clients) {
-                Message message = client.pull();
+                Message message = null;
+                try {
+                    message = client.take();
+                } catch (InterruptedException e) {
+                    e.printStackTrace();
+                }
                 while (message != null) {
                     logger.info("Handling a message: " + message.toString());
                     sendMessage(message);

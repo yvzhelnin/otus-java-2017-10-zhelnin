@@ -25,14 +25,13 @@ public class DBSocketClient {
     }
 
     @SuppressWarnings("InfiniteLoopStatement")
-    private void start() throws Exception {
+    private void start() {
         ExecutorService executorService = Executors.newSingleThreadExecutor();
         executorService.submit(() -> {
             try {
                 while (true) {
-                    Object message = client.pull();
-                    if (message instanceof RequestMessage && ((RequestMessage) message).getAddress().equals(BaseConstants.DB_ADDRESS)) {
-                        client.take();
+                    Object message = client.take();
+                    if (message != null && message instanceof RequestMessage && ((RequestMessage) message).getAddress().equals(BaseConstants.DB_ADDRESS)) {
                         sendMessage(new CacheDataMessage(service.getCacheData(), BaseConstants.FRONTEND_ADDRESS));
                     }
                 }

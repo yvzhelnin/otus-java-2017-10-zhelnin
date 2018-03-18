@@ -20,6 +20,10 @@ public class CacheDataMessage extends Message {
         this.missesCount = data.getMissesCount();
     }
 
+    public CacheData makeCacheData() {
+        return new CacheData(maxCacheSize, currentCacheSize, hitsCount, missesCount);
+    }
+
     @Override
     public String toString() {
         return "CacheDataMessage{" +

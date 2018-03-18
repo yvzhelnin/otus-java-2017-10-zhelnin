@@ -1,6 +1,9 @@
 package ru.zhelnin.otus.lesson16.frontend.socket;
 
+import ru.zhelnin.otus.lesson16.core.message.CacheDataMessage;
 import ru.zhelnin.otus.lesson16.core.message.Message;
+import ru.zhelnin.otus.lesson16.core.util.BaseConstants;
+import ru.zhelnin.otus.lesson16.frontend.endpoint.CacheEndpoint;
 
 import java.io.IOException;
 import java.util.concurrent.ExecutorService;
@@ -25,7 +28,9 @@ public class FrontendSocketClient {
             try {
                 while (true) {
                     Object message = client.take();
-                    logger.info("Message received: " + message.toString());
+                    if (message != null && message instanceof CacheDataMessage && ((CacheDataMessage) message).getAddress().equals(BaseConstants.FRONTEND_ADDRESS)) {
+                        CacheEndpoint.updateCacheData(((CacheDataMessage) message).makeCacheData());
+                    }
                 }
             } catch (InterruptedException e) {
                 logger.log(Level.SEVERE, e.getMessage());
