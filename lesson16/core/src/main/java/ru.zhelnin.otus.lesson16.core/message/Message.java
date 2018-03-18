@@ -6,7 +6,18 @@ public abstract class Message {
 
     private final String className;
 
-    protected Message(Class<?> clazz) {
+    private String address;
+
+    public <T> Message(Class<T> clazz, String address) {
         this.className = clazz.getName();
+        this.address = address;
+    }
+
+    public String getAddress() {
+        return address;
+    }
+
+    public void setAddress(String address) {
+        this.address = address;
     }
 }

@@ -4,8 +4,8 @@ public class RequestMessage extends Message {
 
     private final String request;
 
-    public RequestMessage(Class<?> clazz, String request) {
-        super(clazz);
+    public RequestMessage(Class<?> clazz, String request, String address) {
+        super(clazz, address);
         this.request = request;
     }
 

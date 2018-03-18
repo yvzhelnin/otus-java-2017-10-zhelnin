@@ -1,8 +1,8 @@
 package ru.zhelnin.otus.lesson16.dbserver.generator.utils;
 
-import ru.zhelnin.otus.lesson16.dbserver.model.UserData;
 import ru.zhelnin.otus.lesson16.dbserver.model.AddressData;
 import ru.zhelnin.otus.lesson16.dbserver.model.PhoneData;
+import ru.zhelnin.otus.lesson16.dbserver.model.UserData;
 import ru.zhelnin.otus.lesson16.dbserver.service.UserDataService;
 import ru.zhelnin.otus.lesson16.dbserver.util.Constants;
 
@@ -13,7 +13,7 @@ import java.util.logging.Logger;
 
 public class GeneratorThread implements Runnable {
 
-    private static final Logger logger = Logger.getLogger(GeneratorThread.class.getName());
+    private final Logger logger = Logger.getLogger(GeneratorThread.class.getName());
 
     private final UserDataService userDataService;
 
@@ -25,6 +25,7 @@ public class GeneratorThread implements Runnable {
     }
 
     @Override
+    @SuppressWarnings("InfiniteLoopStatement")
     public void run() {
         while (true) {
             try {

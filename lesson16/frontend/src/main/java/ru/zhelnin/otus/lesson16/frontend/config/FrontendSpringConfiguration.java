@@ -2,6 +2,7 @@ package ru.zhelnin.otus.lesson16.frontend.config;
 
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
+import ru.zhelnin.otus.lesson16.core.util.BaseConstants;
 import ru.zhelnin.otus.lesson16.frontend.socket.FrontendMessageWorker;
 import ru.zhelnin.otus.lesson16.frontend.socket.FrontendSocketClient;
 
@@ -11,12 +12,9 @@ import java.net.Socket;
 @Configuration
 public class FrontendSpringConfiguration {
 
-    private static final String HOST = "localhost";
-    private static final int PORT = 5050;
-
     @Bean(initMethod = "init")
     public FrontendMessageWorker frontendMessageWorker() throws IOException{
-        return new FrontendMessageWorker(new Socket(HOST, PORT));
+        return new FrontendMessageWorker(new Socket(BaseConstants.SOCKET_HOST, BaseConstants.SOCKET_PORT));
     }
 
     @Bean(/*initMethod = "start"*/)

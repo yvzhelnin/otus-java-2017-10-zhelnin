@@ -51,9 +51,16 @@ public class MessageServer {
         while (true) {
             for (MessageWorker client : clients) {
                 Message message = client.pull();
-                logger.info("Handling message: " + message.toString());
+                while (message != null) {
+                    findAddressee(message.getAddress()).send(message);
+                    message = client.pull();
+                }
             }
         }
+    }
+
+    private MessageWorker findAddressee(String address) {
+        return clients.stream().filter(e -> e.getAddress().equals(address)).findFirst().get();
     }
 
     public boolean getRunning() {

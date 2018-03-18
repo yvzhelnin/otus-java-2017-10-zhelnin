@@ -10,7 +10,7 @@ public class ServerMessageWorker extends SocketMessageWorker {
     private final Socket socket;
 
     public ServerMessageWorker(Socket socket) throws IOException {
-        super(socket);
+        super(socket, "");
         this.socket = socket;
     }
 

@@ -30,7 +30,10 @@ public class SocketMessageWorker implements MessageWorker {
     private final ExecutorService executor;
     private final Socket socket;
 
-    public SocketMessageWorker(Socket socket) {
+    private final String address;
+
+    public SocketMessageWorker(Socket socket, String address) {
+        this.address = address;
         this.socket = socket;
         this.executor = Executors.newFixedThreadPool(WORKERS_COUNT);
     }
@@ -53,6 +56,11 @@ public class SocketMessageWorker implements MessageWorker {
 
     public void close() throws IOException {
         executor.shutdown();
+    }
+
+    @Override
+    public String getAddress() {
+        return address;
     }
 
     public void init() {

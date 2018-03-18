@@ -10,8 +10,8 @@ public class CacheDataMessage extends Message {
 
     private int missesCount;
 
-    public CacheDataMessage() {
-        super(CacheDataMessage.class);
+    public CacheDataMessage(String address) {
+        super(CacheDataMessage.class, address);
     }
 
     public void setMaxCacheSize(int maxCacheSize) {

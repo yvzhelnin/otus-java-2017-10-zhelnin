@@ -3,13 +3,13 @@ package ru.zhelnin.otus.lesson16.dbserver.service.impl;
 import org.hibernate.SessionFactory;
 import org.hibernate.boot.registry.StandardServiceRegistryBuilder;
 import org.hibernate.cfg.Configuration;
-import ru.zhelnin.otus.lesson16.dbserver.model.UserData;
-import ru.zhelnin.otus.lesson16.dbserver.properties.DBProperties;
-import ru.zhelnin.otus.lesson16.dbserver.service.dao.UserDataDao;
 import ru.zhelnin.otus.lesson16.dbserver.cache.ZCache;
 import ru.zhelnin.otus.lesson16.dbserver.model.AddressData;
 import ru.zhelnin.otus.lesson16.dbserver.model.PhoneData;
+import ru.zhelnin.otus.lesson16.dbserver.model.UserData;
+import ru.zhelnin.otus.lesson16.dbserver.properties.DBProperties;
 import ru.zhelnin.otus.lesson16.dbserver.service.UserDataService;
+import ru.zhelnin.otus.lesson16.dbserver.service.dao.UserDataDao;
 
 import java.sql.SQLException;
 import java.util.Collection;
