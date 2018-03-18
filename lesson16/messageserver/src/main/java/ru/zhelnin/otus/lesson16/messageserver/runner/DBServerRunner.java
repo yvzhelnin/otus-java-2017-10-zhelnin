@@ -23,6 +23,6 @@ public class DBServerRunner {
             } catch (IOException e) {
                 logger.log(Level.SEVERE, e.getMessage());
             }
-        }, 20, TimeUnit.SECONDS);
+        }, 10, TimeUnit.SECONDS);
     }
 }
