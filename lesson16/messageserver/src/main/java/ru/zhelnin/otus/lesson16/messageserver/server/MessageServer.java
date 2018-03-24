@@ -53,7 +53,7 @@ public class MessageServer {
                 clients.add(client);
             }
         } catch (IOException e) {
-            logger.severe("Couldn't start " + serviceName + " MessageServer");
+            logger.severe("Couldn't start " + serviceName + " socket server");
         }
     }
 
