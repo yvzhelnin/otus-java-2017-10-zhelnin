@@ -8,6 +8,7 @@ import ru.zhelnin.otus.lesson16.messageserver.socket.ServerMessageWorker;
 import java.io.IOException;
 import java.net.ServerSocket;
 import java.net.Socket;
+import java.util.Collection;
 import java.util.List;
 import java.util.Random;
 import java.util.concurrent.CopyOnWriteArrayList;
@@ -20,6 +21,9 @@ public class MessageServer {
     private static final Logger logger = Logger.getLogger(MessageServer.class.getName());
 
     private static final int THREADS_NUMBER = 5;
+
+    private static final String FRONTEND_SERVICE_NAME = "frontend";
+    private static final String DB_SERVICE_NAME = "database";
 
     private final ExecutorService executor;
     private final List<MessageWorker> frontendClients;
@@ -34,34 +38,23 @@ public class MessageServer {
     public void start() {
         executor.submit(this::handleFrontend);
         executor.submit(this::handleDb);
-        executor.submit(() -> {
-            try (ServerSocket frontendServerSocket = new ServerSocket(BaseConstants.FRONTDEND_SOCKET_PORT)) {
-                logger.info("Frontend message server started on port: " + frontendServerSocket.getLocalPort());
-                while (!executor.isShutdown()) {
-                    Socket socket = frontendServerSocket.accept();
-                    MessageWorker client = new ServerMessageWorker(socket);
-                    client.init();
-                    logger.info("Registering new frontend client");
-                    frontendClients.add(client);
-                }
-            } catch (IOException e) {
-                logger.severe("Couldn't start frontend MessageServer");
+        executor.submit(() -> provideConnection(FRONTEND_SERVICE_NAME, BaseConstants.FRONTDEND_SOCKET_PORT, frontendClients));
+        executor.submit(() -> provideConnection(DB_SERVICE_NAME, BaseConstants.DB_SOCKET_PORT, dbClients));
+    }
+
+    private void provideConnection(String serviceName, int portNumber, Collection<MessageWorker> clients) {
+        try (ServerSocket serverSocket = new ServerSocket(portNumber)) {
+            logger.info(serviceName + " server started on port: " + serverSocket.getLocalPort());
+            while (!executor.isShutdown()) {
+                Socket socket = serverSocket.accept();
+                MessageWorker client = new ServerMessageWorker(socket);
+                client.init();
+                logger.info("Registering new " + serviceName + " client");
+                clients.add(client);
             }
-        });
-        executor.submit(() -> {
-            try (ServerSocket dbServerSocket = new ServerSocket(BaseConstants.DB_SOCKET_PORT)) {
-                logger.info("db message server started on port: " + dbServerSocket.getLocalPort());
-                while (!executor.isShutdown()) {
-                    Socket socket = dbServerSocket.accept();
-                    MessageWorker client = new ServerMessageWorker(socket);
-                    client.init();
-                    logger.info("Registering new DB client");
-                    dbClients.add(client);
-                }
-            } catch (IOException e) {
-                logger.severe("Couldn't start DB MessageServer");
-            }
-        });
+        } catch (IOException e) {
+            logger.severe("Couldn't start " + serviceName + " MessageServer");
+        }
     }
 
     @SuppressWarnings("InfiniteLoopStatement")
@@ -107,12 +100,16 @@ public class MessageServer {
         dbClients.get(new Random().nextInt(dbClients.size())).send(message);
     }
 
-    @SuppressWarnings("OptionalGetWithoutIsPresent")
     private void sendMessageToFrontend(Message message) {
         logger.info("Sending message to frontend");
-        final int targetPort = message.getTargetPortNumber();
-        MessageWorker tagret = frontendClients.stream().filter(e -> e.getSocketRemotePort() == targetPort).findFirst().get();
-        frontendClients.stream().filter(e -> e.getSocketRemotePort() == targetPort).findFirst().get().send(message);
+        MessageWorker addressee = frontendClients
+                .stream()
+                .filter(e -> e.getSocketRemotePort() == message.getTargetPortNumber())
+                .findFirst()
+                .orElse(null);
+        if (addressee != null) {
+            addressee.send(message);
+        }
     }
 
     public boolean getRunning() {
