@@ -13,12 +13,11 @@ public class FrontendDeployer {
     private static final Logger logger = Logger.getLogger(FrontendDeployer.class.getName());
 
     private static final String SUB_PATH_TO_WAR = "\\frontend\\target\\frontend-1.0-SNAPSHOT.war";
-    private static final String PATH_TO_TOMCAT = "C:\\Program Files\\Apache Software Foundation\\Tomcat 8.5\\webapps\\frontend.war";
 
-    public static void deploy(String pathPrefix) {
+    public static void deploy(String pathPrefix, String pathToTomcat) {
         String pathToWar = pathPrefix + SUB_PATH_TO_WAR;
         try {
-            Files.copy(Paths.get(pathToWar), Paths.get(PATH_TO_TOMCAT), REPLACE_EXISTING);
+            Files.copy(Paths.get(pathToWar), Paths.get(pathToTomcat), REPLACE_EXISTING);
             logger.info("Frontend WAR file was successfully copied to Tomcat deployment directory");
 
         } catch (IOException e) {

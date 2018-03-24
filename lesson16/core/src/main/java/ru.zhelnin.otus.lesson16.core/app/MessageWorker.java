@@ -14,5 +14,7 @@ public interface MessageWorker {
 
     Message take() throws InterruptedException;
 
+    int getSocketRemotePort();
+
     void close() throws IOException;
 }

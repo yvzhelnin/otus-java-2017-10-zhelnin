@@ -30,9 +30,11 @@ public class DBSocketClient {
         executorService.submit(() -> {
             try {
                 while (true) {
-                    Object message = client.take();
-                    if (message != null && message instanceof RequestMessage && ((RequestMessage) message).getAddress().equals(BaseConstants.DB_ADDRESS)) {
-                        sendMessage(new CacheDataMessage(service.getCacheData(), BaseConstants.FRONTEND_ADDRESS));
+                    logger.info("Taking a message");
+                    RequestMessage message = (RequestMessage) client.take();
+                    if (message != null && message.getDirection().equals(BaseConstants.DB_DIRECTION) && message.getBackPortNumber() != 0) {
+                        logger.info("Got message from server: " + message.toString());
+                        sendMessage(new CacheDataMessage(service.getCacheData(), BaseConstants.FRONTEND_DIRECTION, 0, message.getBackPortNumber()));
                     }
                 }
             } catch (InterruptedException e) {

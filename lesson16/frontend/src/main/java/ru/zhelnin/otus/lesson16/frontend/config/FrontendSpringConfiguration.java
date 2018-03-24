@@ -12,9 +12,14 @@ import java.net.Socket;
 @Configuration
 public class FrontendSpringConfiguration {
 
+    @Bean
+    public Socket socket() throws IOException {
+        return new Socket(BaseConstants.SOCKET_HOST, BaseConstants.FRONTDEND_SOCKET_PORT);
+    }
+
     @Bean(initMethod = "init")
     public FrontendMessageWorker frontendMessageWorker() throws IOException{
-        return new FrontendMessageWorker(new Socket(BaseConstants.SOCKET_HOST, BaseConstants.SOCKET_PORT));
+        return new FrontendMessageWorker(socket());
     }
 
     @Bean(initMethod = "start")

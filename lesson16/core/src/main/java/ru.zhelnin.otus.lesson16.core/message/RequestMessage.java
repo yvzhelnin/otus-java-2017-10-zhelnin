@@ -4,8 +4,8 @@ public class RequestMessage extends Message {
 
     private final String request;
 
-    public RequestMessage(Class<?> clazz, String request, String address) {
-        super(clazz, address);
+    public RequestMessage(Class<?> clazz, String request, String address, int backPort, int targetPort) {
+        super(clazz, address, backPort, targetPort);
         this.request = request;
     }
 
@@ -16,7 +16,7 @@ public class RequestMessage extends Message {
     @Override
     public String toString() {
         return "RequestMessage{" +
-                "request='" + request + '\'' +
-                '}';
+                "request='" + request + "\', " +
+                "direction='" + direction + "\'}";
     }
 }

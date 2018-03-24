@@ -47,9 +47,14 @@ public class SocketMessageWorker implements MessageWorker {
     public Message take() throws InterruptedException {
         Message tokenMessage = input.take();
         logger.info("Took a message: " + tokenMessage.toString());
+
         return tokenMessage;
     }
 
+    @Override
+    public int getSocketRemotePort() {
+        return socket.getPort();
+    }
 
 
     public void addMessage(Message message) {

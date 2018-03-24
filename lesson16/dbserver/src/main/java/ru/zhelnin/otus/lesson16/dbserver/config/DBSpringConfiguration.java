@@ -43,7 +43,7 @@ public class DBSpringConfiguration {
 
     @Bean(initMethod = "init")
     public DBMessageWorker dbMessageWorker() throws IOException {
-        return new DBMessageWorker(new Socket(BaseConstants.SOCKET_HOST, BaseConstants.SOCKET_PORT));
+        return new DBMessageWorker(new Socket(BaseConstants.SOCKET_HOST, BaseConstants.DB_SOCKET_PORT));
     }
 
     @Bean

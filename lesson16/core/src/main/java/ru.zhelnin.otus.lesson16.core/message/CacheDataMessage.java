@@ -12,8 +12,8 @@ public class CacheDataMessage extends Message {
 
     private int missesCount;
 
-    public CacheDataMessage(CacheData data, String address) {
-        super(CacheDataMessage.class, address);
+    public CacheDataMessage(CacheData data, String address, int backPortNumber, int targetPortNumber) {
+        super(CacheDataMessage.class, address, backPortNumber, targetPortNumber);
         this.maxCacheSize = data.getMaxCacheSize();
         this.currentCacheSize = data.getCurrentCacheSize();
         this.hitsCount = data.getHitsCount();

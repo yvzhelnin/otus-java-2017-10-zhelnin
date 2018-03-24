@@ -17,11 +17,13 @@ import javax.websocket.Session;
 import javax.websocket.server.PathParam;
 import javax.websocket.server.ServerEndpoint;
 import java.io.IOException;
+import java.net.Socket;
 
 @ServerEndpoint(value = "/getCacheData/{userName}/{password}")
 public class CacheEndpoint {
 
-    private static FrontendSocketClient frontendSocketClient = FrontendWebAppInitializer.getContext().getBean(FrontendSocketClient.class);
+    private static final FrontendSocketClient frontendSocketClient = FrontendWebAppInitializer.getContext().getBean(FrontendSocketClient.class);
+    private static final int frontEndSocketPort = FrontendWebAppInitializer.getContext().getBean(Socket.class).getLocalPort();
     private static CacheData cacheData;
 
     @OnOpen
@@ -40,8 +42,12 @@ public class CacheEndpoint {
     @OnMessage
     public void onMessage(String message, Session session) throws IOException, EncodeException {
         frontendSocketClient.sendMessage(
-                new RequestMessage(RequestMessage.class, BaseConstants.FRONTEND_CACHE_DATA_REQUEST, BaseConstants.DB_ADDRESS));
-             session.getBasicRemote().sendText(new Gson().toJson(cacheData != null ? cacheData : ""));
+                new RequestMessage(RequestMessage.class,
+                        BaseConstants.FRONTEND_CACHE_DATA_REQUEST,
+                        BaseConstants.DB_DIRECTION,
+                        frontEndSocketPort,
+                        0));
+        session.getBasicRemote().sendText(new Gson().toJson(cacheData != null ? cacheData : ""));
     }
 
     @OnError

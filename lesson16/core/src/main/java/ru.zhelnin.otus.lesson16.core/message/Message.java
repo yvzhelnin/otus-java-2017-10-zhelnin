@@ -4,20 +4,45 @@ public abstract class Message {
 
     public static final String CLASS_NAME_VARIABLE = "className";
 
-    private final String className;
+    private String className;
 
-    private String address;
+    String direction;
 
-    public <T> Message(Class<T> clazz, String address) {
+    private int backPortNumber;
+    private int targetPortNumber;
+
+    public <T> Message(Class<T> clazz, String direction, int backPortNumber, int targetPortNumber) {
         this.className = clazz.getName();
-        this.address = address;
+        this.direction = direction;
+        this.backPortNumber = backPortNumber;
+        this.targetPortNumber = targetPortNumber;
     }
 
-    public String getAddress() {
-        return address;
+    public String getDirection() {
+        return direction;
     }
 
-    public void setAddress(String address) {
-        this.address = address;
+    public void setDirection(String direction) {
+        this.direction = direction;
+    }
+
+    public String getClassName() {
+        return className;
+    }
+
+    public int getBackPortNumber() {
+        return backPortNumber;
+    }
+
+    public void setBackPortNumber(int backPortNumber) {
+        this.backPortNumber = backPortNumber;
+    }
+
+    public int getTargetPortNumber() {
+        return targetPortNumber;
+    }
+
+    public void setTargetPortNumber(int targetPortNumber) {
+        this.targetPortNumber = targetPortNumber;
     }
 }
